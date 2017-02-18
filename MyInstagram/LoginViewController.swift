@@ -15,12 +15,11 @@ class LoginViewController: UIViewController {
   @IBOutlet weak var usernameField: UITextField!
   @IBOutlet weak var passwordField: UITextField!
   
-    override func viewDidLoad() {
+  override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
-    }
-
+    
+  }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -31,7 +30,7 @@ class LoginViewController: UIViewController {
       
       if user != nil {
       print("You're logged in!")
-      self.performSegue(withIdentifier: "loginSegue", sender: nil)
+      self.performSegue(withIdentifier: "LoginSegue", sender: nil)
       }
     }
   }
@@ -39,22 +38,8 @@ class LoginViewController: UIViewController {
   
   @IBAction func onSignUp(_ sender: Any) {
     
-    let newUser = PFUser()
-    newUser.username = usernameField.text
-    newUser.password = passwordField.text
-    
-    newUser.signUpInBackground{ (success: Bool, error: Error?) -> Void in
-    
-      if success {
-        print("Yay, created a user")
-      } else {
-        print("Error: \(error?.localizedDescription)")
-       // if error.code == 202 {
-         // print("User name is taken")  // parse error codes not showing
-      }
-      
-    }
-    
+    print("Going to Sign Up View Controller")
+ 
   }
   
   
