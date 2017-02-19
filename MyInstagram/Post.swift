@@ -8,10 +8,22 @@
 
 import Foundation
 import Parse
+import ParseUI
+
 
 class Post: NSObject {
   
+  var photoDescription: String?
+  var photoImage: UIImage?
+  var dateString: String?
+  
+  init(photoCaption: String, capturedImage: UIImage, currDateString: String){
+  
+    photoDescription = photoCaption
+    photoImage = capturedImage
+    dateString = currDateString
     
+  }
   
   
   
@@ -19,14 +31,46 @@ class Post: NSObject {
   // constructors
   // other methods  
   
-  class func postUserImage(image: UIImage?, withCaption caption: String?, withCompletion completion: PFBooleanResultBlock?) {
+  class func createNewPost(post: Post, withCompletion completion: PFBooleanResultBlock?) {
+    
+    let Post = PFObject(className: "Post")
+    Post["photo"] = getPFFileFromImage(image: post.photoImage)
+    Post["caption"] = post.photoDescription
+    Post["date"] = post.dateString
+    
+    // get author name from current PFUser
+   // let currentUser = PFUser.current()
+    let user = PFUser.current()
+    let _firstname = user!["firstname"]
+    let _lastname = user!.object(forKey: "lastname")
+  
+    // convert first and last name to full name 
+    let charSet = NSCharacterSet(charactersIn: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ").inverted
+    let unformattedFirstName = String(describing: _firstname!)
+    let firstName = unformattedFirstName.components(separatedBy: charSet).joined(separator: "")
+    let unformattedLastName = String(describing: _lastname!)
+    let lastName = unformattedLastName.components(separatedBy: charSet).joined(separator: "")
+    
+    let authorName = firstName + " " + lastName
+    Post["fullname"] = authorName
+    
+    
+    
+    
+    Post.saveInBackground(block: completion)
+    
+  }
+  
+  
+  
+  class func postUserImage(image: UIImage?, withDescription description: String?, withCompletion completion: PFBooleanResultBlock?) {
     // Create Parse object PFObject
     let post = PFObject(className: "Post")
     
     // Add relevant fields to the object
-    post["media"] = getPFFileFromImage(image: image) // PFFile column type
+    post["photo"] = getPFFileFromImage(image: image) // PFFile column type
     post["author"] = PFUser.current() // Pointer column type that points to PFUser
-    post["caption"] = caption
+    post["caption"] = description
     post["likesCount"] = 0
     post["commentsCount"] = 0
     
@@ -51,25 +95,6 @@ class Post: NSObject {
     }
     return nil
   }
-  
-  // helper to URL of the file we want to save in
-  
-  var photosURL: URL {
-    return documentURL.appendingPathComponent("photos.json")
-  }
-  
-  
-  //convenience var to establish document path. Need to do first becuase it returns an array
-  
-  var documentURL: URL {
-    let path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first!
-    return URL(fileURLWithPath: path)
-  }
-  
-//  let applicationDocumentsDirectory: URL = {
-//    let paths = FileManager.default.urlsForDirectory(
-//      return paths[0]
-//  }()
-  
+
   
 }

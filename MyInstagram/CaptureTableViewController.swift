@@ -7,8 +7,18 @@
 //
 
 import UIKit
+import CoreLocation
 
-class CaptureTableViewController: UITableViewController {
+
+private let dateFormatter: DateFormatter = {
+  let formatter = DateFormatter()
+  formatter.dateStyle = .medium
+  formatter.timeStyle = .short
+  return formatter
+}()
+
+
+class CaptureTableViewController: UITableViewController, UITextViewDelegate {
 
   @IBOutlet weak var captureImageView: UIImageView!
   @IBOutlet weak var addPhotoLabel: UILabel!
@@ -20,9 +30,15 @@ class CaptureTableViewController: UITableViewController {
   @IBOutlet weak var dateLabel: UILabel!
   @IBOutlet weak var locationLabel: UILabel!
 
+  var post: Post?
   var image: UIImage?
-  var observer: Any!
+
+  var placeHolderText: String = "Description goes here"
   
+  var coordinate = CLLocationCoordinate2D(latitude: 0, longitude: 0)
+  var placemark: CLPlacemark? 
+  
+  var observer: Any!
   
   
   override func viewDidLoad() {
@@ -30,14 +46,24 @@ class CaptureTableViewController: UITableViewController {
     
       listenForBackgroundNotification()
 
+      descriptionTextView.delegate = self
+      descriptionTextView.text = placeHolderText
+      descriptionTextView.isUserInteractionEnabled = true
+    
+      image = captureImageView.image
+    
+      dateLabel.text = format(date: Date())
+    
+
+
+    
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
-
-
+  
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -131,12 +157,79 @@ class CaptureTableViewController: UITableViewController {
         return true
     }
     */
+  
+  // MARK: - TEXT VIEW METHODS 
+  
+  func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
+   
+    if textView == descriptionTextView && textView.text == placeHolderText {
+      moveCursorToStart(textView: descriptionTextView)
+
+      print("Moving Cursor to Start")
+    }
+    return true
+  }
+  
+  func moveCursorToStart(textView: UITextView)
+  {
+    DispatchQueue.main.async {
+      self.descriptionTextView.selectedRange = NSMakeRange(0,0)
+    }
+  }
+  
+  func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+   
+    let newLength = textView.text.utf16.count + text.utf16.count - range.length
+    
+    if newLength > 0 {
+      
+      if textView == descriptionTextView && descriptionTextView.text == placeHolderText
+      {
+        applyNonPlaceholderStyle(text: textView)
+        descriptionTextView.text = ""
+      }
+    }
+    return true
+  }
+  
+  func applyPlaceholderStyle(text: UITextView, phText: String) {
+    descriptionTextView.textColor = UIColor.lightGray
+    descriptionTextView.text = phText
+  }
+  
+  func applyNonPlaceholderStyle(text: UITextView) {
+    descriptionTextView.textColor = UIColor.darkText
+    descriptionTextView.alpha = 1.0
+  }
+
+  
+  
+  
+  // MARK: - SHOW IMAGE
 
   func show(image: UIImage) {
     captureImageView.image = image
     captureImageView.isHidden = false
     captureImageView.frame = CGRect(x: 10, y: 10, width: 260, height: 260)
     addPhotoLabel.isHidden = true
+    
+  }
+  
+
+  // MARK: - FORMAT DATE 
+  
+  func format(date: Date) -> String {
+    
+    return dateFormatter.string(from: date)
+    
+  }
+  
+  // MARK: - CREATE POST
+  func createPost(completion: (_ success: Bool) -> Void) {
+    
+    post = Post(photoCaption: descriptionTextView.text!, capturedImage: image!, currDateString: dateLabel.text!)
+    completion(true)
+  
   }
   
   
@@ -148,8 +241,27 @@ class CaptureTableViewController: UITableViewController {
   
   @IBAction func done() {
     
+    createPost { (success) -> Void in
+      if success {
+        
+        Post.createNewPost(post: post!) { (success: Bool, error: Error?) -> Void in
+          
+          if success {
+            print("Successful Post to Parse")
+            self.captureImageView.image = nil
+            self.descriptionTextView.text = ""
+          }
+          else {
+            print("Can't post to parse")
+          }
+        }
+      }
+    }
+    
     dismiss(animated: true, completion: nil)
   }
+  
+  
   @IBAction func cancel() {
     dismiss(animated: true, completion: nil)
   }
@@ -169,7 +281,9 @@ class CaptureTableViewController: UITableViewController {
   
   deinit{
     print("*** deinit\(self)")  // NOT PRINTING TO CONSOLE, LEAKING MEMORY
-    NotificationCenter.default.removeObserver(observer)
+    if let observer = observer {
+      NotificationCenter.default.removeObserver(observer)
+    }
   }
   
     /*

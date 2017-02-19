@@ -14,8 +14,13 @@ import Parse
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
   var window: UIWindow?
+  var navigationBarAppearance = UINavigationBar.appearance()
 
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+  
+    navigationBarAppearance.tintColor = UIColor.lightGray
+    navigationBarAppearance.barTintColor = UIColor.black
+    navigationBarAppearance.titleTextAttributes = [NSForegroundColorAttributeName:UIColor.lightGray]
     
     Parse.initialize(
       with: ParseClientConfiguration(block: { (configuration:ParseMutableClientConfiguration) -> Void in

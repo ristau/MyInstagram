@@ -8,5 +8,6 @@ target 'MyInstagram' do
   # Pods for MyInstagram
 
   pod 'Parse'
+  pod 'ParseUI'
 
 end

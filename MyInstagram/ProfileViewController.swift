@@ -7,12 +7,18 @@
 //
 
 import UIKit
+import Parse
+
 
 class ProfileViewController: UIViewController {
+
+  var post: PFObject!
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
+      self.navigationItem.title = "Profile"
+      
         // Do any additional setup after loading the view.
     }
 
