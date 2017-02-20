@@ -17,14 +17,17 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
   let HeaderViewIdentifier = "TableViewHeaderView"
   var date: Date?
   
+  
   @IBOutlet weak var tableView: UITableView!
   
+  @IBOutlet weak var logoutButton: UIButton!
   
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
       self.navigationItem.title = "My Posts"
+      self.logoutButton.layer.cornerRadius = 4
       
       tableView.dataSource = self
       tableView.delegate = self
@@ -43,13 +46,14 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
   
   func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
     let headerView = UIView(frame: CGRect(x: 0, y: 0, width: 320, height: 50))
-    headerView.backgroundColor = UIColor.black.withAlphaComponent(0.9)
+    headerView.backgroundColor = UIColor.black.withAlphaComponent(0.4)
+   // headerView.backgroundColor = UIColor(red:0.00, green:0.67, blue:0.93, alpha:0.3)
     
     // set & load avatar image
     var profileView = UIImageView()
     let myImage: UIImage = UIImage(named: "bfrfeb17_120x160")!
     profileView = UIImageView(image: myImage)
-    profileView.frame = CGRect(x: 10, y: 10, width: 30, height: 30)
+    profileView.frame = CGRect(x: 20, y: 10, width: 30, height: 30)
     profileView.clipsToBounds = true
     profileView.layer.cornerRadius = 15
     profileView.layer.borderColor = UIColor.white.withAlphaComponent(0.9).cgColor
@@ -58,7 +62,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     // set & load user name 
     let label = UILabel(frame: CGRect(x: 0, y: 0, width: 200, height: 21))
-    label.center = CGPoint(x: 125, y: 25)
+    label.center = CGPoint(x: 130, y: 25)
     label.textColor = UIColor.lightGray
     label.textAlignment = .center
     label.adjustsFontSizeToFitWidth = true

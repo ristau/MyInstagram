@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreLocation
+import Dispatch
 
 
 private let dateFormatter: DateFormatter = {
@@ -53,9 +54,6 @@ class CaptureTableViewController: UITableViewController, UITextViewDelegate {
       image = captureImageView.image
     
       dateLabel.text = format(date: Date())
-    
-
-
     
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -232,14 +230,14 @@ class CaptureTableViewController: UITableViewController, UITextViewDelegate {
   
   }
   
+  // MARK: - Completing the Post
   
-  
-  @IBAction func onCameraTap(_ sender: UIButton) {
-    print("Pressed on camera")
-
-  }
   
   @IBAction func done() {
+    
+    let hudView = HudView.hud(inView: navigationController!.view, animated: true)
+    
+    hudView.text = "Done!"
     
     createPost { (success) -> Void in
       if success {
@@ -250,7 +248,11 @@ class CaptureTableViewController: UITableViewController, UITextViewDelegate {
             print("Successful Post to Parse")
             self.captureImageView.image = nil
             self.descriptionTextView.text = ""
-            self.goToPostsVC()
+            
+            afterDelay(0.6) {
+              hudView.isHidden = true 
+              self.goToPostsVC()
+            }
           }
           else {
             print("Can't post to parse")

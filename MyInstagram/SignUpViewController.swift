@@ -8,12 +8,12 @@
 
 import UIKit
 import Parse
+import Dispatch
 
 class SignUpViewController: UIViewController, UITextFieldDelegate {
   
   
   @IBOutlet weak var signUpButton: UIButton!
-  @IBOutlet weak var cancelButton: UIButton!
   
   @IBOutlet weak var firstNameTextField: UITextField!
   @IBOutlet weak var lastNameTextField: UITextField!
@@ -51,7 +51,6 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
       
       
       signUpButton.layer.cornerRadius = 4
-      cancelButton.layer.cornerRadius = 4
       
       firstNameTextField?.delegate = self
       lastNameTextField?.delegate = self
@@ -124,6 +123,11 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
   @IBAction func onSignUp(_ sender: UIButton) {
     print("Signing Up the new user")
     
+//    let hudView = hudView.hud(inView: viewWithTag(1), animated: true)
+    let hudView = HudView.hud(inView: navigationController!.view, animated: true)
+    hudView.text = "Welcome!"
+
+    
     firstName = firstNameTextField.text
     lastName = lastNameTextField.text
     phoneNumber = phoneNumberTextField.text
@@ -133,8 +137,11 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
     
     user = User(username: userName!, psswd: password!, emailaddress: email!, telNum: phoneNumber!, fname: firstName!, lname: lastName!)
  
-    performUserLogin()
-    
+    afterDelay(0.6) {
+      hudView.isHidden = true
+      self.performUserLogin()
+    }
+
   }
   
   @IBAction func onTap(_ sender: UITapGestureRecognizer)
@@ -155,7 +162,7 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
       
       if user != nil {
         print("You're logged in!")
-        self.performSegue(withIdentifier: "SignUpSegue", sender: nil)
+        self.performSegue(withIdentifier: "GoToProfile", sender: nil)
       }
     }
   }
