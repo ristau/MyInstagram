@@ -7,9 +7,8 @@
 //
 
 import UIKit
-import CoreLocation
-import Dispatch
-
+//import Dispatch
+import Parse
 
 private let dateFormatter: DateFormatter = {
   let formatter = DateFormatter()
@@ -20,24 +19,22 @@ private let dateFormatter: DateFormatter = {
 
 
 class CaptureTableViewController: UITableViewController, UITextViewDelegate {
-
+  
+  
+  @IBOutlet weak var doneButton: UIButton!
+  @IBOutlet weak var logoutButton: UIButton!
+  
   @IBOutlet weak var captureImageView: UIImageView!
   @IBOutlet weak var addPhotoLabel: UILabel!
   
   @IBOutlet weak var descriptionTextView: UITextView!
   @IBOutlet weak var categoryLabel: UILabel!
-  @IBOutlet weak var latitudeLabel: UILabel!
-  @IBOutlet weak var longitudeLabel: UILabel!
   @IBOutlet weak var dateLabel: UILabel!
-  @IBOutlet weak var locationLabel: UILabel!
 
   var post: Post?
   var image: UIImage?
 
   var placeHolderText: String = "Description goes here"
-  
-  var coordinate = CLLocationCoordinate2D(latitude: 0, longitude: 0)
-  var placemark: CLPlacemark? 
   
   var observer: Any!
   
@@ -45,22 +42,29 @@ class CaptureTableViewController: UITableViewController, UITextViewDelegate {
   override func viewDidLoad() {
         super.viewDidLoad()
     
-      listenForBackgroundNotification()
+     listenForBackgroundNotification()
 
       descriptionTextView.delegate = self
       descriptionTextView.text = placeHolderText
       descriptionTextView.isUserInteractionEnabled = true
     
-      image = captureImageView.image
-    
       dateLabel.text = format(date: Date())
     
+      self.doneButton.layer.cornerRadius = 4
+      self.logoutButton.layer.cornerRadius = 4 
+
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
+  
+  override func viewWillAppear(_ animated: Bool) {
+
+    
+  }
+  
   
     // MARK: - Table view data source
 
@@ -77,7 +81,7 @@ class CaptureTableViewController: UITableViewController, UITextViewDelegate {
         case 1:
           return 1
         case 2:
-          return 4
+          return 1
         default:
           return 0
       }
@@ -85,8 +89,9 @@ class CaptureTableViewController: UITableViewController, UITextViewDelegate {
 
   override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
       if indexPath.section == 0 && indexPath.row == 0 {
-        //...
+
     } else if indexPath.section == 1 && indexPath.row == 0 {
+        print("Selected tableview cell")
         tableView.deselectRow(at: indexPath, animated: true)
         pickPhoto()
     }
@@ -99,35 +104,19 @@ class CaptureTableViewController: UITableViewController, UITextViewDelegate {
       case (0,0):
         return 88
       case (1,_):
-        return captureImageView.isHidden ? 44: 260
-      case (2,2):
-        locationLabel.frame.size = CGSize(width: view.bounds.size.width - 115, height: 10000)
-        locationLabel.sizeToFit()
-        locationLabel.frame.origin.x = view.bounds.size.width - locationLabel.frame.size.width - 15
-        return locationLabel.frame.size.height + 20
-    default:
-      return 44
+        return captureImageView.isHidden ? 44: 280
+      default:
+        return 44
       
     }
   }
   
-    /*
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-
-        // Configure the cell...
-
-        return cell
-    }
-    */
-
-    /*
     // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+   // override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    */
+     //   return true
+   // }
+  
 
     /*
     // Override to support editing the table view.
@@ -203,9 +192,11 @@ class CaptureTableViewController: UITableViewController, UITextViewDelegate {
   
   
   
+  
   // MARK: - SHOW IMAGE
 
   func show(image: UIImage) {
+    
     captureImageView.image = image
     captureImageView.isHidden = false
     captureImageView.frame = CGRect(x: 10, y: 10, width: 260, height: 260)
@@ -248,11 +239,18 @@ class CaptureTableViewController: UITableViewController, UITextViewDelegate {
             print("Successful Post to Parse")
             self.captureImageView.image = nil
             self.descriptionTextView.text = ""
+            self.captureImageView.isHidden = true
+            self.addPhotoLabel.isHidden = false
+            self.descriptionTextView.text = self.placeHolderText
+            self.descriptionTextView.isUserInteractionEnabled = true
+            self.applyPlaceholderStyle(text: self.descriptionTextView, phText: self.placeHolderText)
+            self.dateLabel.text = self.format(date: Date())
+            self.tableView.reloadData()
             
             afterDelay(0.6) {
-              hudView.isHidden = true 
-              self.goToPostsVC()
-            }
+              hudView.isHidden = true
+              self.dismiss(animated: true, completion: nil)
+                       }
           }
           else {
             print("Can't post to parse")
@@ -262,14 +260,22 @@ class CaptureTableViewController: UITableViewController, UITextViewDelegate {
     }
   }
   
-  func goToPostsVC() {
-    let postsVC = self.storyboard?.instantiateViewController(withIdentifier: "PostsViewController") as! PostsViewController
-    self.navigationController?.pushViewController(postsVC, animated: true)
-  }
+
   
   
   @IBAction func cancel() {
-    dismiss(animated: true, completion: nil)
+
+    print("Tapped on cancel")
+    
+    PFUser.logOutInBackground(block: { (error: Error?) -> Void in
+      if error != nil {
+        print("Problem logging out")
+      } else {
+          print("Logging Out.  Goodbye.")
+       self.dismiss(animated: true, completion: nil)
+      }
+    })
+    
   }
   
   func listenForBackgroundNotification() {
@@ -322,7 +328,7 @@ extension CaptureTableViewController: UIImagePickerControllerDelegate, UINavigat
     if let theImage = image{
       show(image: theImage)
     }
-    
+
     tableView.reloadData()
     dismiss(animated: true, completion: nil)
   }

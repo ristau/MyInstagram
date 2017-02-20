@@ -163,20 +163,10 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
       if user != nil {
         print("You're logged in!")
         self.performSegue(withIdentifier: "GoToProfile", sender: nil)
+
+      
       }
     }
   }
   
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-   // override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-      
-     // if segue.identifier == "loginSegue"
-     // {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-        
-     // }
-
 }

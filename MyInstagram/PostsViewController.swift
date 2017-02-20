@@ -161,12 +161,15 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
   }
   
   @IBAction func onLogout(_ sender: UIButton) {
-    print("Logging Out.  Goodbye.")
-    
-    PFUser.logOut()
-    dismiss(animated: true, completion: nil)
-    
-    
+
+    PFUser.logOutInBackground(block: { (error: Error?) -> Void in
+      if error != nil {
+        print("Problem logging out")
+      } else {
+        print("Logging Out.  Goodbye.")
+        self.dismiss(animated: true, completion: nil)
+      }
+    })
   }
   
   

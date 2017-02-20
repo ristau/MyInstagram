@@ -30,6 +30,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
       })
     )
     
+    if PFUser.current() != nil {
+      
+      let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController (withIdentifier: "TabBarController")
+      window?.rootViewController = viewController
+    
+    }
+    
     return true
   }
 

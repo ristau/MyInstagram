@@ -20,7 +20,6 @@
 		E55D3F181E57DDC400940E7E /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55D3F171E57DDC400940E7E /* User.swift */; };
 		E55D3F1E1E58235D00940E7E /* PostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55D3F1D1E58235D00940E7E /* PostCell.swift */; };
 		E55D3F221E582FA000940E7E /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55D3F211E582FA000940E7E /* ProfileViewController.swift */; };
-		E55D3F241E582FBA00940E7E /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55D3F231E582FBA00940E7E /* MapViewController.swift */; };
 		E55D3F261E5834DD00940E7E /* CaptureTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55D3F251E5834DD00940E7E /* CaptureTableViewController.swift */; };
 		E55D3F2A1E58DDC300940E7E /* Functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55D3F291E58DDC300940E7E /* Functions.swift */; };
 /* End PBXBuildFile section */
@@ -43,7 +42,6 @@
 		E55D3F171E57DDC400940E7E /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		E55D3F1D1E58235D00940E7E /* PostCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostCell.swift; sourceTree = "<group>"; };
 		E55D3F211E582FA000940E7E /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
-		E55D3F231E582FBA00940E7E /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		E55D3F251E5834DD00940E7E /* CaptureTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CaptureTableViewController.swift; sourceTree = "<group>"; };
 		E55D3F291E58DDC300940E7E /* Functions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Functions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -126,7 +124,6 @@
 				E55D3F151E57DCAE00940E7E /* SignUpViewController.swift */,
 				E55D3F131E57D54D00940E7E /* PostsViewController.swift */,
 				E55D3F211E582FA000940E7E /* ProfileViewController.swift */,
-				E55D3F231E582FBA00940E7E /* MapViewController.swift */,
 				E55D3F251E5834DD00940E7E /* CaptureTableViewController.swift */,
 			);
 			name = "View Controllers";
@@ -276,7 +273,6 @@
 				E55D3F1E1E58235D00940E7E /* PostCell.swift in Sources */,
 				E55D3F141E57D54D00940E7E /* PostsViewController.swift in Sources */,
 				E55D3F261E5834DD00940E7E /* CaptureTableViewController.swift in Sources */,
-				E55D3F241E582FBA00940E7E /* MapViewController.swift in Sources */,
 				E55D3F2A1E58DDC300940E7E /* Functions.swift in Sources */,
 				E5564F3D1E52B8940043BBCD /* LoginViewController.swift in Sources */,
 				E55D3F181E57DDC400940E7E /* User.swift in Sources */,
