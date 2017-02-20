@@ -66,7 +66,6 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     let post = postArray[section]
     
     if let authorName = post["fullname"] as? String {
-      print("Name: \(authorName)")
       label.text = authorName
     } else {
       label.text = "Fay Ristau"

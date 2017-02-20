@@ -11,6 +11,10 @@ import Parse
 
 class SignUpViewController: UIViewController, UITextFieldDelegate {
   
+  
+  @IBOutlet weak var signUpButton: UIButton!
+  @IBOutlet weak var cancelButton: UIButton!
+  
   @IBOutlet weak var firstNameTextField: UITextField!
   @IBOutlet weak var lastNameTextField: UITextField!
   @IBOutlet weak var phoneNumberTextField: UITextField!
@@ -33,23 +37,8 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
   var userName: String?
   var password: String?
   
-  //    let newUser = PFUser()
-  //    newUser.username = usernameField.text
-  //    newUser.password = passwordField.text
-  //
-  //    newUser.signUpInBackground{ (success: Bool, error: Error?) -> Void in
-  //
-  //      if success {
-  //        print("Yay, created a user")
-  //      } else {
-  //        print("Error: \(error?.localizedDescription)")
-  //       // if error.code == 202 {
-  //         // print("User name is taken")  // parse error codes not showing
-  //      }
-  //      
-  //    }
+  var gradientLayer: CAGradientLayer!
   
-
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -61,6 +50,9 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
       applyPlaceholderStyle(text: passwordTextField, phText: passwordPlaceHolderText)
       
       
+      signUpButton.layer.cornerRadius = 4
+      cancelButton.layer.cornerRadius = 4
+      
       firstNameTextField?.delegate = self
       lastNameTextField?.delegate = self
       phoneNumberTextField?.delegate = self
@@ -69,6 +61,11 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
       passwordTextField?.delegate = self
       
     }
+  
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(true)
+    createGradientLayer()
+  }
   
   // MARK: - TEXTFIELD METHODS
   
@@ -111,7 +108,18 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
     text.textColor = UIColor.darkText
     text.alpha = 1.0
   }
-
+  
+  func createGradientLayer() {
+    
+    gradientLayer = CAGradientLayer()
+    gradientLayer.frame = self.view.bounds
+    gradientLayer.colors = [UIColor.purple.cgColor, UIColor.black.cgColor]
+    
+    self.view.viewWithTag(1)?.layer.addSublayer(gradientLayer)
+      
+  }
+  
+// MARK: - Completing Sign Up and Leaving View Controller
   
   @IBAction func onSignUp(_ sender: UIButton) {
     print("Signing Up the new user")
@@ -128,6 +136,17 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
     performUserLogin()
     
   }
+  
+  @IBAction func onTap(_ sender: UITapGestureRecognizer)
+  {
+    self.view.endEditing(true)
+  }
+  
+  
+  @IBAction func onCancel(_ sender: UIButton) {
+    self.dismiss(animated: true, completion: nil)
+  }
+  
   
   
   func performUserLogin() {

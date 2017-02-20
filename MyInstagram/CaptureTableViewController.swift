@@ -250,6 +250,7 @@ class CaptureTableViewController: UITableViewController, UITextViewDelegate {
             print("Successful Post to Parse")
             self.captureImageView.image = nil
             self.descriptionTextView.text = ""
+            self.goToPostsVC()
           }
           else {
             print("Can't post to parse")
@@ -257,8 +258,11 @@ class CaptureTableViewController: UITableViewController, UITextViewDelegate {
         }
       }
     }
-    
-    dismiss(animated: true, completion: nil)
+  }
+  
+  func goToPostsVC() {
+    let postsVC = self.storyboard?.instantiateViewController(withIdentifier: "PostsViewController") as! PostsViewController
+    self.navigationController?.pushViewController(postsVC, animated: true)
   }
   
   
