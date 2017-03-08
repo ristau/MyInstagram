@@ -464,7 +464,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wED-LE-EQz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2489" y="-253"/>
+            <point key="canvasLocation" x="2679" y="-239"/>
         </scene>
         <!--Profile Name-->
         <scene sceneID="qxl-ht-lZ8">
@@ -475,7 +475,7 @@
                         <viewControllerLayoutGuide type="bottom" id="Pm9-82-0ko"/>
                     </layoutGuides>
                     <view key="view" alpha="0.90000000000000002" contentMode="scaleToFill" id="6de-sa-Jia">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="618"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="25" translatesAutoresizingMaskIntoConstraints="NO" id="O8R-kS-rph">
@@ -597,7 +597,7 @@
         <scene sceneID="ozG-pM-HXN">
             <objects>
                 <tableViewController storyboardIdentifier="CaptureViewController" id="nQK-Em-ylK" customClass="CaptureTableViewController" customModule="MyInstagram" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" alpha="0.80000000000000004" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="vWl-Cn-xo6">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="vWl-Cn-xo6">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="618"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
@@ -751,7 +751,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZBM-zL-bfN" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3924" y="447.52623688155927"/>
+            <point key="canvasLocation" x="3970" y="258"/>
         </scene>
         <!--Profile-->
         <scene sceneID="MQx-C2-wWb">
@@ -820,6 +820,6 @@
         <image name="sendGrey16" width="16" height="16"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="QE3-Q4-FsD"/>
+        <segue reference="iLY-5z-ubL"/>
     </inferredMetricsTieBreakers>
 </document>

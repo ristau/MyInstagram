@@ -54,9 +54,6 @@ class Post: NSObject {
     let authorName = firstName + " " + lastName
     Post["fullname"] = authorName
     
-    
-    
-    
     Post.saveInBackground(block: completion)
     
   }

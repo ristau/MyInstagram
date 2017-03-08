@@ -7,7 +7,7 @@
 //
 
 import UIKit
-//import Dispatch
+import Dispatch
 import Parse
 
 private let dateFormatter: DateFormatter = {
@@ -237,20 +237,28 @@ class CaptureTableViewController: UITableViewController, UITextViewDelegate {
           
           if success {
             print("Successful Post to Parse")
-            self.captureImageView.image = nil
-            self.descriptionTextView.text = ""
-            self.captureImageView.isHidden = true
-            self.addPhotoLabel.isHidden = false
-            self.descriptionTextView.text = self.placeHolderText
-            self.descriptionTextView.isUserInteractionEnabled = true
-            self.applyPlaceholderStyle(text: self.descriptionTextView, phText: self.placeHolderText)
-            self.dateLabel.text = self.format(date: Date())
-            self.tableView.reloadData()
-            
+        
+      
+           
             afterDelay(0.6) {
               hudView.isHidden = true
+              self.captureImageView.image = nil
+              self.descriptionTextView.text = ""
+              self.captureImageView.isHidden = true
+              self.addPhotoLabel.isHidden = false
+              self.descriptionTextView.text = ""
+              self.descriptionTextView.text = self.placeHolderText
+              self.descriptionTextView.isUserInteractionEnabled = true
+              self.applyPlaceholderStyle(text: self.descriptionTextView, phText: self.placeHolderText)
+              self.dateLabel.text = self.format(date: Date())
+              self.tableView.reloadData()
               self.dismiss(animated: true, completion: nil)
-                       }
+  //            self.returnMainMenu()
+              // self.navigationController?.popToRootViewController(animated: true)
+              // self.presentingViewController?.dismiss(animated: false, completion: nil)
+            //  self.tabBarController?.dismiss(animated: true, completion: nil)
+              // self.dismiss(animated: true, completion: nil)
+             }
           }
           else {
             print("Can't post to parse")
@@ -260,7 +268,14 @@ class CaptureTableViewController: UITableViewController, UITextViewDelegate {
     }
   }
   
-
+  func returnMainMenu() {
+    // save the presenting ViewController
+    if let tabBarController = self.presentingViewController as? UITabBarController {
+      self.dismiss(animated: true) {
+        tabBarController.selectedIndex = 0
+      }
+    }
+  }
   
   
   @IBAction func cancel() {

@@ -46,6 +46,9 @@ class LoginViewController: UIViewController {
       print("You're logged in!")
       self.performSegue(withIdentifier: "LoginSegue", sender: nil)
       }
+      else {
+        self.showAlert()
+      }
     }
   }
   
@@ -55,6 +58,17 @@ class LoginViewController: UIViewController {
     
     print("Going to Sign Up View Controller")
  
+  }
+  
+  
+  func showAlert() {
+    let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
+    
+    let problemWithLoginAction = UIAlertAction(title: "Incorrect Username or Password", style: .cancel, handler: nil)
+    alertController.addAction(problemWithLoginAction)
+    
+    present(alertController, animated: true, completion: nil)
+    
   }
   
   
