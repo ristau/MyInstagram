@@ -27,8 +27,21 @@ The following **additional** features are implemented:
 
 - [X] Added launch screen and app icons
 - [X] Animated launch view before seguing to login view
-- [X] Implemented alert controller for failed login
 - [X] Implemented color gradients for login screens 
+- [X] Implemented category picker for posts
+- [ ] User can delete or edit categories 
+- [X] Customized UITextField for post caption (placeholder text that disappears when typing starts)
+- [X] Implemented alert controller for failed login
+- [ ] Implemented alert controller for incomplete sign up attempt
+- [ ] Implemented alert controller for incomplete post attempt
+- [ ] User can mark a post as a favorite 
+- [ ] User can view posts marked as favorites 
+- [ ] User can comment on a post
+- [ ] User can view or add comments (including alert to do this) 
+- [ ] User can send the post (including alert) 
+
+
+
 
 
 Please list two areas of the assignment you'd like to **discuss further with your peers** during the next class (examples include better ways to implement something, how to extend your app in certain ways, etc):
