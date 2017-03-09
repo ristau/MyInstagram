@@ -16,6 +16,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
   var postArray: [PFObject] = []
   let HeaderViewIdentifier = "TableViewHeaderView"
   var date: Date?
+  var user: PFUser?
   
   
   @IBOutlet weak var tableView: UITableView!
@@ -33,6 +34,8 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
       tableView.delegate = self
       tableView.register(UITableViewHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: HeaderViewIdentifier)
       
+      user = PFUser.current()
+      
     }
 
   override func viewWillAppear(_ animated: Bool) {
@@ -49,10 +52,20 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     headerView.backgroundColor = UIColor.black.withAlphaComponent(0.4)
    // headerView.backgroundColor = UIColor(red:0.00, green:0.67, blue:0.93, alpha:0.3)
     
+    // get profile image from Parse
+    let myImage = PFImageView()
+    
+    if user?["profile_image"] != nil {
+      myImage.file = user?["profile_image"] as? PFFile
+      myImage.loadInBackground()
+    } else {
+      myImage.image = UIImage(named: "placeholderBlue64")!
+    }
+
+    
     // set & load avatar image
     var profileView = UIImageView()
-    let myImage: UIImage = UIImage(named: "bfrfeb17_120x160")!
-    profileView = UIImageView(image: myImage)
+    profileView = UIImageView(image: myImage.image)
     profileView.frame = CGRect(x: 20, y: 10, width: 30, height: 30)
     profileView.clipsToBounds = true
     profileView.layer.cornerRadius = 15
@@ -72,7 +85,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     if let authorName = post["fullname"] as? String {
       label.text = authorName
     } else {
-      label.text = "Fay Ristau"
+      label.text = ""
     }
     
     headerView.addSubview(label)

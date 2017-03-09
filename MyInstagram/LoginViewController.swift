@@ -23,19 +23,26 @@ class LoginViewController: UIViewController {
         super.viewDidLoad()
     
     loginButton.layer.cornerRadius = 4
+    
     createGradientLayer()
+    addTapGesture()
+    
     
   }
 
   
   func createGradientLayer() {
-    
     gradientLayer = CAGradientLayer()
     gradientLayer.frame = self.view.bounds
     gradientLayer.colors = [UIColor.blue.cgColor, UIColor.black.cgColor]
     
     self.view.viewWithTag(1)?.layer.addSublayer(gradientLayer)
-    
+  }
+  
+  func addTapGesture() {
+    let tap = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:)))
+    tap.cancelsTouchesInView = false
+    self.view.addGestureRecognizer(tap)
   }
   
   
@@ -46,7 +53,8 @@ class LoginViewController: UIViewController {
       print("You're logged in!")
       self.performSegue(withIdentifier: "LoginSegue", sender: nil)
       }
-      else {
+      if error != nil {
+        print("problem logging in")
         self.showAlert()
       }
     }
@@ -62,13 +70,35 @@ class LoginViewController: UIViewController {
   
   
   func showAlert() {
-    let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
+    let alertController = UIAlertController(title: "Incorrect Username or Password", message: nil, preferredStyle: .actionSheet)
     
-    let problemWithLoginAction = UIAlertAction(title: "Incorrect Username or Password", style: .cancel, handler: nil)
-    alertController.addAction(problemWithLoginAction)
+    let forgotUserNameOrPasswordAction = UIAlertAction(title: "Forgot Password?", style: .default, handler: {_ in self.resetPassword() })
+    alertController.addAction(forgotUserNameOrPasswordAction)
+    
+    
+    let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+    alertController.addAction(cancelAction)
     
     present(alertController, animated: true, completion: nil)
     
+  }
+
+  
+  
+  func resetPassword() {
+   
+    let resetPasswordController = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
+
+    // let emailTextField = resetPasswordController.textFields![0] as UITextField
+
+    
+    let sendEmailAction = UIAlertAction(title: "Please check your email", style: .default, handler: nil)
+    resetPasswordController.addAction(sendEmailAction)
+    
+    let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+    resetPasswordController.addAction(cancelAction)
+    
+    present(resetPasswordController, animated: true, completion: nil)
   }
   
   

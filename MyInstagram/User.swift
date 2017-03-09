@@ -70,6 +70,30 @@ class User: NSObject {
     
   }
   
+  class func saveProfileImage(image: UIImage?, withCompletion completion: PFBooleanResultBlock?) {
+
+    let user = PFUser.current()
+    
+    // Add relevant fields to the object
+    user?["profile_image"] = getPFFileFromImage(image: image) // PFFile column type
+    
+    // Save object (following function will save the object in Parse asynchronously)
+    user?.saveInBackground(block: completion)
+  }
+  
+  
+  class func getPFFileFromImage(image: UIImage?) -> PFFile? {
+    // check if image is not nil
+    if let image = image {
+      // get image data and check if that is not nil
+      if let imageData = UIImagePNGRepresentation(image) {
+        return PFFile(name: "image.png", data: imageData)
+      }
+    }
+    return nil
+  }
+
+  
   // setting up current pfuser
   
   static let userDidLogoutNotification = "UserDidLogout"

@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		321CC47D1B3D4EC694DF3ED1 /* Pods_MyInstagram.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 02ACE4EFE33BEB9AC8286429 /* Pods_MyInstagram.framework */; };
+		E51D26E31E70A8DF00FA6C45 /* CategoryPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E51D26E21E70A8DF00FA6C45 /* CategoryPickerViewController.swift */; };
+		E51D26E51E70B13800FA6C45 /* LaunchAnimationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E51D26E41E70B13800FA6C45 /* LaunchAnimationViewController.swift */; };
 		E5224F9B1E5A928800BBB18B /* HudView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5224F9A1E5A928800BBB18B /* HudView.swift */; };
 		E5564F2A1E5298910043BBCD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5564F291E5298910043BBCD /* AppDelegate.swift */; };
 		E5564F2F1E5298910043BBCD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E5564F2D1E5298910043BBCD /* Main.storyboard */; };
@@ -28,6 +30,8 @@
 		02ACE4EFE33BEB9AC8286429 /* Pods_MyInstagram.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MyInstagram.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		89F71E3FD897AFA7C6CB1477 /* Pods-MyInstagram.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyInstagram.release.xcconfig"; path = "Pods/Target Support Files/Pods-MyInstagram/Pods-MyInstagram.release.xcconfig"; sourceTree = "<group>"; };
 		A94D165676D8032C2F40727B /* Pods-MyInstagram.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyInstagram.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MyInstagram/Pods-MyInstagram.debug.xcconfig"; sourceTree = "<group>"; };
+		E51D26E21E70A8DF00FA6C45 /* CategoryPickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryPickerViewController.swift; sourceTree = "<group>"; };
+		E51D26E41E70B13800FA6C45 /* LaunchAnimationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LaunchAnimationViewController.swift; sourceTree = "<group>"; };
 		E5224F9A1E5A928800BBB18B /* HudView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HudView.swift; sourceTree = "<group>"; };
 		E5564F261E5298910043BBCD /* MyInstagram.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyInstagram.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E5564F291E5298910043BBCD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; wrapsLines = 0; };
@@ -120,11 +124,13 @@
 		E5564F3B1E52B8820043BBCD /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				E51D26E41E70B13800FA6C45 /* LaunchAnimationViewController.swift */,
 				E5564F3C1E52B8940043BBCD /* LoginViewController.swift */,
 				E55D3F151E57DCAE00940E7E /* SignUpViewController.swift */,
 				E55D3F131E57D54D00940E7E /* PostsViewController.swift */,
 				E55D3F211E582FA000940E7E /* ProfileViewController.swift */,
 				E55D3F251E5834DD00940E7E /* CaptureTableViewController.swift */,
+				E51D26E21E70A8DF00FA6C45 /* CategoryPickerViewController.swift */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -270,9 +276,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E51D26E31E70A8DF00FA6C45 /* CategoryPickerViewController.swift in Sources */,
 				E55D3F1E1E58235D00940E7E /* PostCell.swift in Sources */,
 				E55D3F141E57D54D00940E7E /* PostsViewController.swift in Sources */,
 				E55D3F261E5834DD00940E7E /* CaptureTableViewController.swift in Sources */,
+				E51D26E51E70B13800FA6C45 /* LaunchAnimationViewController.swift in Sources */,
 				E55D3F2A1E58DDC300940E7E /* Functions.swift in Sources */,
 				E5564F3D1E52B8940043BBCD /* LoginViewController.swift in Sources */,
 				E55D3F181E57DDC400940E7E /* User.swift in Sources */,

@@ -33,6 +33,8 @@ class CaptureTableViewController: UITableViewController, UITextViewDelegate {
 
   var post: Post?
   var image: UIImage?
+  var categoryPlaceholderName = "No Category"
+  var categoryName: String?
 
   var placeHolderText: String = "Description goes here"
   
@@ -47,12 +49,18 @@ class CaptureTableViewController: UITableViewController, UITextViewDelegate {
       descriptionTextView.delegate = self
       descriptionTextView.text = placeHolderText
       descriptionTextView.isUserInteractionEnabled = true
+      categoryName = categoryPlaceholderName
+      categoryLabel.text = categoryName
     
       dateLabel.text = format(date: Date())
     
       self.doneButton.layer.cornerRadius = 4
       self.logoutButton.layer.cornerRadius = 4 
 
+    let tap = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:)))
+    tap.cancelsTouchesInView = false
+    self.view.addGestureRecognizer(tap)
+    
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -60,9 +68,10 @@ class CaptureTableViewController: UITableViewController, UITextViewDelegate {
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
   
-  override func viewWillAppear(_ animated: Bool) {
+ override func viewWillAppear(_ animated: Bool) {
+      super.viewWillAppear(true)
+      dateLabel.text = format(date: Date())
 
-    
   }
   
   
@@ -189,7 +198,15 @@ class CaptureTableViewController: UITableViewController, UITextViewDelegate {
     descriptionTextView.alpha = 1.0
   }
 
+  // MARK: = PICK CATEGORY 
   
+  @IBAction func categoryPickerDidPickCategory(_ segue: UIStoryboardSegue) {
+    
+    let controller = segue.source as! CategoryPickerViewController
+    categoryName = controller.selectedCategoryName
+    categoryLabel.text = categoryName
+    
+  }
   
   
   
@@ -246,7 +263,6 @@ class CaptureTableViewController: UITableViewController, UITextViewDelegate {
               self.descriptionTextView.text = ""
               self.captureImageView.isHidden = true
               self.addPhotoLabel.isHidden = false
-              self.descriptionTextView.text = ""
               self.descriptionTextView.text = self.placeHolderText
               self.descriptionTextView.isUserInteractionEnabled = true
               self.applyPlaceholderStyle(text: self.descriptionTextView, phText: self.placeHolderText)
@@ -281,17 +297,15 @@ class CaptureTableViewController: UITableViewController, UITextViewDelegate {
   @IBAction func cancel() {
 
     print("Tapped on cancel")
-    
-    PFUser.logOutInBackground(block: { (error: Error?) -> Void in
-      if error != nil {
-        print("Problem logging out")
-      } else {
-          print("Logging Out.  Goodbye.")
-       self.dismiss(animated: true, completion: nil)
-      }
-    })
+    self.descriptionTextView.text = ""
+    categoryLabel.text = categoryPlaceholderName
+    dateLabel.text = ""
+    captureImageView.image = nil
+    view.endEditing(true)
+    tabBarController?.selectedIndex = 0
     
   }
+  
   
   func listenForBackgroundNotification() {
     
@@ -313,15 +327,18 @@ class CaptureTableViewController: UITableViewController, UITextViewDelegate {
     }
   }
   
-    /*
+  
     // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    if segue.identifier == "PickCategory" {
+      let controller = segue.destination as! CategoryPickerViewController
+      controller.selectedCategoryName = categoryName!
     }
-    */
+  
+  
+  }
+  
 
 }
 

@@ -41,6 +41,10 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
   
     override func viewDidLoad() {
         super.viewDidLoad()
+      
+      let tap = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:)))
+      tap.cancelsTouchesInView = false
+      self.view.addGestureRecognizer(tap)
 
       applyPlaceholderStyle(text: firstNameTextField, phText: firstNamePlaceHolderText)
       applyPlaceholderStyle(text: lastNameTextField, phText: lastNamePlaceHolderText)
@@ -158,6 +162,10 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
   
   func performUserLogin() {
     
+    if firstNameTextField.text == "" || firstNameTextField.text == firstNamePlaceHolderText {
+      print ("missing field")
+    }
+    
     PFUser.logInWithUsername(inBackground: (user?.userName)!, password: (user?.password)!) { (user: PFUser?, error: Error?) -> Void in
       
       if user != nil {
@@ -168,5 +176,22 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
       }
     }
   }
+  
+  func showAlert() {
+    let alertController = UIAlertController(title: "Incomplete Sign Up", message: nil, preferredStyle: .actionSheet)
+    
+//    let forgotUserNameOrPasswordAction = UIAlertAction(title: "Forgot Password or Username?", style: .default, handler: {_ in self.resetPassword() })
+//    alertController.addAction(forgotUserNameOrPasswordAction)
+    
+    
+    let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+    alertController.addAction(cancelAction)
+    
+    present(alertController, animated: true, completion: nil)
+    
+  }
+  
+  
+  
   
 }
