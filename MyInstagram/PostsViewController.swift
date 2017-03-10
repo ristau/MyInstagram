@@ -17,6 +17,11 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
   let HeaderViewIdentifier = "TableViewHeaderView"
   var date: Date?
   var user: PFUser?
+  var myImage: PFImageView!
+  
+  var tapGesture: UITapGestureRecognizer!
+  
+  
   
   
   @IBOutlet weak var tableView: UITableView!
@@ -26,6 +31,9 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
 
     override func viewDidLoad() {
         super.viewDidLoad()
+      
+      
+      user = PFUser.current()
 
       self.navigationItem.title = "My Posts"
       self.logoutButton.layer.cornerRadius = 4
@@ -34,8 +42,9 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
       tableView.delegate = self
       tableView.register(UITableViewHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: HeaderViewIdentifier)
       
-      user = PFUser.current()
-      
+      tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.goToProfileView(_:)))
+     
+      loadUserImage()
     }
 
   override func viewWillAppear(_ animated: Bool) {
@@ -44,6 +53,8 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
   
   }
   
+ 
+  
   
   // MARK: - TABLEVIEW METHODS
   
@@ -51,18 +62,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     let headerView = UIView(frame: CGRect(x: 0, y: 0, width: 320, height: 50))
     headerView.backgroundColor = UIColor.black.withAlphaComponent(0.4)
    // headerView.backgroundColor = UIColor(red:0.00, green:0.67, blue:0.93, alpha:0.3)
-    
-    // get profile image from Parse
-    let myImage = PFImageView()
-    
-    if user?["profile_image"] != nil {
-      myImage.file = user?["profile_image"] as? PFFile
-      myImage.loadInBackground()
-    } else {
-      myImage.image = UIImage(named: "placeholderBlue64")!
-    }
 
-    
     // set & load avatar image
     var profileView = UIImageView()
     profileView = UIImageView(image: myImage.image)
@@ -73,12 +73,19 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     profileView.layer.borderWidth = 1;
     headerView.addSubview(profileView)
     
-    // set & load user name 
+    
+    profileView.isUserInteractionEnabled = true
+    profileView.addGestureRecognizer(tapGesture)
+    
+    
+    // set & load user name
     let label = UILabel(frame: CGRect(x: 0, y: 0, width: 200, height: 21))
     label.center = CGPoint(x: 130, y: 25)
     label.textColor = UIColor.lightGray
     label.textAlignment = .center
     label.adjustsFontSizeToFitWidth = true
+    label.isUserInteractionEnabled = true
+    label.addGestureRecognizer(tapGesture)
     
     let post = postArray[section]
     
@@ -89,7 +96,6 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     headerView.addSubview(label)
-
     return headerView
   }
   
@@ -143,17 +149,43 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     query.findObjectsInBackground { (posts: [PFObject]?, error: Error?) -> Void in
       if let posts = posts {
         self.postArray = posts
+        
+        for post in posts {
+          
+          print("Fullname: \(post["fullname"])")
+          
+          print("caption: \(post["caption"])")
+        
+        
+        }
+        
         self.tableView.reloadData()
         print("Retrieved the posts")
       } else {
         print(error?.localizedDescription as Any)
       }
     }
-    
-    self.tableView.reloadData()
+  }
   
+  
+  func loadUserImage() {
+    
+    // get profile image from Parse
+    myImage = PFImageView()
+    
+    if user?["profile_image"] != nil {
+      myImage.file = user?["profile_image"] as? PFFile
+      myImage.loadInBackground()
+    } else {
+      myImage.image = UIImage(named: "placeholderBlue64")!
+    }
+    
   }
 
+  
+  
+  
+  
   // MARK: - ACTION BUTTONS 
   
   
@@ -169,9 +201,6 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     print("Tapped on Send")
   }
   
-  @IBAction func onProfileTap(_ sender: UIButton) {
-    print("Tapped on Profile") 
-  }
   
   @IBAction func onLogout(_ sender: UIButton) {
 
@@ -180,18 +209,28 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         print("Problem logging out")
       } else {
         print("Logging Out.  Goodbye.")
-        self.dismiss(animated: true, completion: nil)
+        let hudView = HudView.hud(inView: self.navigationController!.view, animated: true)
+        hudView.text = "Goodbye!"
+        let loginVC = self.storyboard?.instantiateViewController(withIdentifier: "LoginViewController") as! LoginViewController
+        afterDelay(0.6) {
+          hudView.isHidden = true
+          print("Completion")
+          self.present(loginVC, animated: true, completion: nil)
+        }
       }
     })
   }
+
   
-  
-  
-  
-  
+  //        self.dismiss(animated: true, completion: nil)
 
   
     // MARK: - Navigation
+  
+  func goToProfileView(_ sender: UITapGestureRecognizer) {
+    print("Tapped on goToProfile")
+       tabBarController?.selectedIndex = 2
+    }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
       

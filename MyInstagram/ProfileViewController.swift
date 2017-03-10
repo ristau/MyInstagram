@@ -16,7 +16,7 @@ class ProfileViewController: UIViewController {
   @IBOutlet weak var logoutButton: UIButton!
   @IBOutlet weak var welcomeNameLabel: UILabel!
   @IBOutlet weak var profileImageView: UIImageView!
-
+  @IBOutlet weak var saveButton: UIButton!
   
   
   var post: PFObject!
@@ -28,6 +28,8 @@ class ProfileViewController: UIViewController {
 
       self.navigationItem.title = "Profile"
       self.logoutButton.layer.cornerRadius = 4
+      self.saveButton.layer.cornerRadius = 4
+      
       user = PFUser.current()
       
       //let myImage = UIImage(named: "placeholderBlue64")
@@ -46,12 +48,14 @@ class ProfileViewController: UIViewController {
       profileImageView.layer.cornerRadius = 15
      // profileImageView.layer.borderColor = UIColor.white.withAlphaComponent(0.9).cgColor
      // profileImageView.layer.borderWidth = 1;
-      
+ 
       getCurrentUserName()
-      getCurrentUserImage()
+      getCurrentUserImage() // add code for this
 
     }
 
+
+  
   
   func getCurrentUserName() {
     
@@ -80,8 +84,8 @@ class ProfileViewController: UIViewController {
   func show(image: UIImage) {
     
     profileImageView.image = image
-    //captureImageView.isHidden = false
-    profileImageView.frame = CGRect(x: 10, y: 10, width: 260, height: 260)
+    profileImageView.frame = CGRect(x: 65, y: 50, width: 64, height: 64)
+    // adjust x and y coordinates, can these be set in autolayout
     
   }
   

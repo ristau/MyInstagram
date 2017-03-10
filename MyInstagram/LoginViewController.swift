@@ -87,20 +87,33 @@ class LoginViewController: UIViewController {
   
   func resetPassword() {
    
-    let resetPasswordController = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
-
-    // let emailTextField = resetPasswordController.textFields![0] as UITextField
-
+    let resetPasswordController = UIAlertController(title: "Reset Password", message: nil, preferredStyle: .alert)
     
-    let sendEmailAction = UIAlertAction(title: "Please check your email", style: .default, handler: nil)
-    resetPasswordController.addAction(sendEmailAction)
+    let resetAction = UIAlertAction(title: "Submit", style: .default, handler: { alert -> Void in
+      let emailTextField = resetPasswordController.textFields![0] as UITextField
+      self.displayMessage()
+    })
     
-    let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+   let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+
+   resetPasswordController.addTextField { (textField : UITextField!) -> Void in
+      textField.placeholder = "Enter Email"
+    }
+
+    resetPasswordController.addAction(resetAction)
     resetPasswordController.addAction(cancelAction)
     
-    present(resetPasswordController, animated: true, completion: nil)
+    self.present(resetPasswordController, animated: true, completion: nil)
+   
   }
   
+  func displayMessage() {
+    let messageController = UIAlertController(title: "Reset link sent to your email", message: nil, preferredStyle: .alert)
+    
+    let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+    messageController.addAction(cancelAction)
+    self.present(messageController, animated: true, completion: nil)
+  }
   
   
   

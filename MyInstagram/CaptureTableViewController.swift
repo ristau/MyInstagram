@@ -35,6 +35,7 @@ class CaptureTableViewController: UITableViewController, UITextViewDelegate {
   var image: UIImage?
   var categoryPlaceholderName = "No Category"
   var categoryName: String?
+  var validInput: Bool? 
 
   var placeHolderText: String = "Description goes here"
   
@@ -191,20 +192,23 @@ class CaptureTableViewController: UITableViewController, UITextViewDelegate {
   func applyPlaceholderStyle(text: UITextView, phText: String) {
     descriptionTextView.textColor = UIColor.lightGray
     descriptionTextView.text = phText
+    validInput = false
   }
   
   func applyNonPlaceholderStyle(text: UITextView) {
     descriptionTextView.textColor = UIColor.darkText
     descriptionTextView.alpha = 1.0
+    validInput = true
   }
 
-  // MARK: = PICK CATEGORY 
+  // MARK: - PICK CATEGORY
   
   @IBAction func categoryPickerDidPickCategory(_ segue: UIStoryboardSegue) {
     
     let controller = segue.source as! CategoryPickerViewController
     categoryName = controller.selectedCategoryName
     categoryLabel.text = categoryName
+    validInput = true
     
   }
   
@@ -218,11 +222,28 @@ class CaptureTableViewController: UITableViewController, UITextViewDelegate {
     captureImageView.isHidden = false
     captureImageView.frame = CGRect(x: 10, y: 10, width: 260, height: 260)
     addPhotoLabel.isHidden = true
+    validInput = true
+    
+  }
+  
+  // MARK: - CLEAR FIELDS BEFORE EXITING 
+  
+  func clearAll() {
+    
+    self.descriptionTextView.text = self.placeHolderText
+    self.applyPlaceholderStyle(text: self.descriptionTextView, phText: self.placeHolderText)
+    self.tableView.reloadData()
+    categoryLabel.text = categoryPlaceholderName
+    dateLabel.text = ""
+    captureImageView.image = nil
+    self.addPhotoLabel.isHidden = false
+    self.captureImageView.isHidden = true
+    view.endEditing(true)
     
   }
   
 
-  // MARK: - FORMAT DATE 
+  // MARK: - FORMAT DATE
   
   func format(date: Date) -> String {
     
@@ -231,6 +252,51 @@ class CaptureTableViewController: UITableViewController, UITextViewDelegate {
   }
   
   // MARK: - CREATE POST
+ 
+  func validateFields() -> Bool {
+    
+    var missingFields: [String] = []
+    
+    if descriptionTextView.text == "" || descriptionTextView.text == placeHolderText {
+      print("Caption not filled out")
+      missingFields.append("description")
+      validInput = false
+    }
+    
+    if categoryLabel.text == categoryPlaceholderName {
+      print("Category not selected")
+      missingFields.append("category")
+      validInput = false
+    }
+    
+    if captureImageView.image == nil {
+      print("Image not selected")
+      missingFields.append("photo")
+      validInput = false
+    }
+    
+    if validInput == false {
+      displayAlert(missingFields: missingFields)
+    }
+    
+    return validInput!
+  }
+  
+  func displayAlert(missingFields: [String]) {
+    
+    let alertMessage = "Missing input for\n \(missingFields)"
+    
+    let alertController = UIAlertController(title: "Incomplete!", message: alertMessage, preferredStyle: .alert)
+    
+    let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+    alertController.addAction(cancelAction)
+    
+    present(alertController, animated: true, completion: nil)
+    
+  }
+  
+  
+  
   func createPost(completion: (_ success: Bool) -> Void) {
     
     post = Post(photoCaption: descriptionTextView.text!, capturedImage: image!, currDateString: dateLabel.text!)
@@ -243,45 +309,36 @@ class CaptureTableViewController: UITableViewController, UITextViewDelegate {
   
   @IBAction func done() {
     
-    let hudView = HudView.hud(inView: navigationController!.view, animated: true)
-    
-    hudView.text = "Done!"
-    
-    createPost { (success) -> Void in
-      if success {
-        
-        Post.createNewPost(post: post!) { (success: Bool, error: Error?) -> Void in
-          
-          if success {
-            print("Successful Post to Parse")
-        
-      
-           
-            afterDelay(0.6) {
-              hudView.isHidden = true
-              self.captureImageView.image = nil
-              self.descriptionTextView.text = ""
-              self.captureImageView.isHidden = true
-              self.addPhotoLabel.isHidden = false
-              self.descriptionTextView.text = self.placeHolderText
-              self.descriptionTextView.isUserInteractionEnabled = true
-              self.applyPlaceholderStyle(text: self.descriptionTextView, phText: self.placeHolderText)
-              self.dateLabel.text = self.format(date: Date())
-              self.tableView.reloadData()
-              self.dismiss(animated: true, completion: nil)
+    validateFields()
+//    let hudView = HudView.hud(inView: navigationController!.view, animated: true)
+//    
+//    hudView.text = "Done!"
+//    
+//    createPost { (success) -> Void in
+//      if success {
+//        
+//        Post.createNewPost(post: post!) { (success: Bool, error: Error?) -> Void in
+//          
+//          if success {
+//            print("Successful Post to Parse")
+//        
+//            afterDelay(0.6) {
+//              hudView.isHidden = true
+//              self.clearAll()
+//              self.dismiss(animated: true, completion: nil)
   //            self.returnMainMenu()
               // self.navigationController?.popToRootViewController(animated: true)
               // self.presentingViewController?.dismiss(animated: false, completion: nil)
             //  self.tabBarController?.dismiss(animated: true, completion: nil)
               // self.dismiss(animated: true, completion: nil)
-             }
-          }
-          else {
-            print("Can't post to parse")
-          }
-        }
-      }
-    }
+//             }
+//          }
+//          else {
+//            print("Can't post to parse")
+//          }
+//        }
+//      }
+//    }
   }
   
   func returnMainMenu() {
@@ -297,11 +354,7 @@ class CaptureTableViewController: UITableViewController, UITextViewDelegate {
   @IBAction func cancel() {
 
     print("Tapped on cancel")
-    self.descriptionTextView.text = ""
-    categoryLabel.text = categoryPlaceholderName
-    dateLabel.text = ""
-    captureImageView.image = nil
-    view.endEditing(true)
+    clearAll()
     tabBarController?.selectedIndex = 0
     
   }

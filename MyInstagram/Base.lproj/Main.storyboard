@@ -55,16 +55,22 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" keyboardAppearance="alert" enablesReturnKeyAutomatically="YES"/>
                             </textField>
-                            <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lBE-5B-QpY">
+                            <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lBE-5B-QpY">
                                 <rect key="frame" x="113" y="316" width="150" height="36"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="150" id="OTY-JV-Fih"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="20"/>
                                 <color key="tintColor" red="1" green="0.98823529409999999" blue="0.96470588239999999" alpha="1" colorSpace="calibratedRGB"/>
-                                <state key="normal" title="Log In">
-                                    <color key="titleColor" red="1" green="0.98823529409999999" blue="0.96470588239999999" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal">
+                                    <attributedString key="attributedTitle">
+                                        <fragment content="Log In">
+                                            <attributes>
+                                                <color key="NSColor" red="1" green="0.98823529409999999" blue="0.96470588239999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                <font key="NSFont" metaFont="system" size="20"/>
+                                            </attributes>
+                                        </fragment>
+                                    </attributedString>
                                 </state>
                                 <connections>
                                     <action selector="onSignIn:" destination="BYZ-38-t0r" eventType="touchUpInside" id="FFR-I1-OgF"/>
@@ -145,7 +151,7 @@
                                         <color key="backgroundColor" red="0.80000001190000003" green="0.80000001190000003" blue="0.80000001190000003" alpha="1" colorSpace="calibratedRGB"/>
                                         <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                         <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                         <textInputTraits key="textInputTraits" keyboardAppearance="alert" enablesReturnKeyAutomatically="YES"/>
                                     </textField>
                                 </subviews>
@@ -164,7 +170,7 @@
                                         <color key="backgroundColor" red="0.80000001190000003" green="0.80000001190000003" blue="0.80000001190000003" alpha="1" colorSpace="calibratedRGB"/>
                                         <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                         <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                         <textInputTraits key="textInputTraits" keyboardAppearance="alert" enablesReturnKeyAutomatically="YES"/>
                                     </textField>
                                 </subviews>
@@ -201,8 +207,8 @@
                                         <rect key="frame" x="133" y="0.0" width="192" height="30"/>
                                         <color key="backgroundColor" red="0.80000001190000003" green="0.80000001190000003" blue="0.80000001190000003" alpha="1" colorSpace="calibratedRGB"/>
                                         <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                        <nil key="textColor"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                        <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                         <textInputTraits key="textInputTraits" keyboardType="emailAddress" keyboardAppearance="alert" enablesReturnKeyAutomatically="YES"/>
                                     </textField>
                                 </subviews>
@@ -221,7 +227,7 @@
                                         <color key="backgroundColor" red="0.80000001190000003" green="0.80000001190000003" blue="0.80000001190000003" alpha="1" colorSpace="calibratedRGB"/>
                                         <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                         <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                         <textInputTraits key="textInputTraits" keyboardAppearance="alert" enablesReturnKeyAutomatically="YES"/>
                                     </textField>
                                 </subviews>
@@ -240,26 +246,11 @@
                                         <color key="backgroundColor" red="0.80000001190000003" green="0.80000001190000003" blue="0.80000001190000003" alpha="1" colorSpace="calibratedRGB"/>
                                         <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                         <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                         <textInputTraits key="textInputTraits" keyboardAppearance="alert" enablesReturnKeyAutomatically="YES" secureTextEntry="YES"/>
                                     </textField>
                                 </subviews>
                             </stackView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5cy-Hd-sgP">
-                                <rect key="frame" x="138" y="424" width="100" height="36"/>
-                                <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="100" id="ZOK-GS-cte"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="20"/>
-                                <color key="tintColor" cocoaTouchSystemColor="lightTextColor"/>
-                                <state key="normal" title="Sign Up">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="onSignUp:" destination="Z8r-rL-jwB" eventType="touchUpInside" id="49V-6v-5qa"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <color key="tintColor" cocoaTouchSystemColor="lightTextColor"/>
                         <gestureRecognizers/>
@@ -276,7 +267,6 @@
                             <constraint firstItem="JJK-za-ycD" firstAttribute="leading" secondItem="ZcR-Q0-1as" secondAttribute="leading" constant="25" id="JD1-Jx-O2O"/>
                             <constraint firstAttribute="trailing" secondItem="JJK-za-ycD" secondAttribute="trailing" constant="25" id="Kis-rq-Pad"/>
                             <constraint firstItem="j8I-0E-rKC" firstAttribute="top" secondItem="cRq-YC-WE6" secondAttribute="bottom" constant="50" id="M4h-Sh-OYX"/>
-                            <constraint firstItem="5cy-Hd-sgP" firstAttribute="top" secondItem="UoK-aM-6E6" secondAttribute="bottom" constant="30" id="NUS-JQ-wSC"/>
                             <constraint firstItem="mmK-mC-fTV" firstAttribute="top" secondItem="KEm-LG-jsx" secondAttribute="bottom" constant="20" id="PAE-Vb-WMN"/>
                             <constraint firstItem="KEm-LG-jsx" firstAttribute="top" secondItem="JJK-za-ycD" secondAttribute="bottom" constant="20" id="U8I-tG-EXg"/>
                             <constraint firstItem="KEm-LG-jsx" firstAttribute="leading" secondItem="ZcR-Q0-1as" secondAttribute="leading" constant="25" id="U9d-6t-0iL"/>
@@ -288,29 +278,54 @@
                             <constraint firstItem="MHY-UW-MuI" firstAttribute="leading" secondItem="ZcR-Q0-1as" secondAttribute="leading" id="l7G-vG-7T6"/>
                             <constraint firstItem="enz-PJ-ZhT" firstAttribute="leading" secondItem="ZcR-Q0-1as" secondAttribute="leading" constant="25" id="nV8-1F-i0p"/>
                             <constraint firstItem="mmK-mC-fTV" firstAttribute="leading" secondItem="ZcR-Q0-1as" secondAttribute="leading" constant="25" id="rye-bc-7wD"/>
-                            <constraint firstItem="5cy-Hd-sgP" firstAttribute="centerX" secondItem="ZcR-Q0-1as" secondAttribute="centerX" id="uzn-KR-tee"/>
                         </constraints>
                         <connections>
                             <outletCollection property="gestureRecognizers" destination="ILB-zM-jw7" appends="YES" id="zN4-ho-Yhw"/>
                         </connections>
                     </view>
                     <navigationItem key="navigationItem" id="dCL-tS-zHb">
-                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="es0-0r-2x1">
-                            <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                            <connections>
-                                <action selector="onCancel:" destination="Z8r-rL-jwB" id="e3P-Ro-Xn5"/>
-                            </connections>
+                        <barButtonItem key="leftBarButtonItem" id="jqe-uO-Ky8">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="9ui-nA-Vre">
+                                <rect key="frame" x="16" y="7" width="83" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.20000000300000001" green="0.20000000300000001" blue="0.20000000300000001" alpha="0.5" colorSpace="calibratedRGB"/>
+                                <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="Cancel">
+                                    <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="onCancel:" destination="Z8r-rL-jwB" eventType="touchUpInside" id="M7r-ny-c5H"/>
+                                </connections>
+                            </button>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" id="JGC-5K-fk7">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="5cy-Hd-sgP">
+                                <rect key="frame" x="259" y="4" width="100" height="36"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.20000000300000001" green="0.20000000300000001" blue="0.20000000300000001" alpha="0.5" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="100" id="ZOK-GS-cte"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="Sign Up">
+                                    <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="onSignUp:" destination="Z8r-rL-jwB" eventType="touchUpInside" id="49V-6v-5qa"/>
+                                </connections>
+                            </button>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="cancelButton" destination="9ui-nA-Vre" id="nn8-MT-XrR"/>
                         <outlet property="emailTextField" destination="xkp-km-P18" id="izC-Ga-1ou"/>
                         <outlet property="firstNameTextField" destination="JZ2-hH-QJX" id="W7k-rx-APU"/>
                         <outlet property="lastNameTextField" destination="o78-c1-XGE" id="CxJ-8T-xWi"/>
                         <outlet property="passwordTextField" destination="TyL-Pc-nSo" id="v9g-Vb-6rY"/>
                         <outlet property="phoneNumberTextField" destination="goA-ac-pN7" id="LSX-Ed-Yoq"/>
-                        <outlet property="signUpButton" destination="5cy-Hd-sgP" id="uqy-hJ-gCC"/>
+                        <outlet property="signUpButton" destination="5cy-Hd-sgP" id="R0A-nD-ISQ"/>
                         <outlet property="userNameTextField" destination="PGP-b9-1eN" id="hB8-gN-LVD"/>
-                        <segue destination="a9n-3T-boc" kind="presentation" identifier="GoToProfile" id="QE3-Q4-FsD"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="31u-4c-K4W" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -441,7 +456,7 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="l3e-47-x15">
-                        <barButtonItem key="leftBarButtonItem" tag="1" style="plain" id="GD6-Ja-PcY">
+                        <barButtonItem key="leftBarButtonItem" tag="1" id="GD6-Ja-PcY">
                             <button key="customView" opaque="NO" alpha="0.10000000000000001" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Bwd-2j-OqH">
                                 <rect key="frame" x="16" y="7" width="83" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -513,14 +528,6 @@
                                     <action selector="onCameraTap:" destination="n9m-la-8L7" eventType="touchUpInside" id="pSK-fr-7sE"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZC1-kk-5dp">
-                                <rect key="frame" x="263" y="72" width="81" height="34"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Save Profile"/>
-                                <connections>
-                                    <action selector="saveProfileImage:" destination="n9m-la-8L7" eventType="touchUpInside" id="F3r-RT-zgr"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -537,7 +544,7 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Profile Name" id="1xZ-ES-FBW">
-                        <barButtonItem key="leftBarButtonItem" style="plain" id="XSH-Sw-vev">
+                        <barButtonItem key="leftBarButtonItem" id="XSH-Sw-vev">
                             <button key="customView" opaque="NO" alpha="0.5" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="zCy-aE-s08">
                                 <rect key="frame" x="16" y="7" width="83" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -549,16 +556,31 @@
                                 </connections>
                             </button>
                         </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" id="ydz-ET-Mlh">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="ZC1-kk-5dp">
+                                <rect key="frame" x="278" y="5" width="81" height="34"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.20000000300000001" green="0.20000000300000001" blue="0.20000000300000001" alpha="0.5" colorSpace="calibratedRGB"/>
+                                <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="Save Profile">
+                                    <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="saveProfileImage:" destination="n9m-la-8L7" eventType="touchUpInside" id="F3r-RT-zgr"/>
+                                </connections>
+                            </button>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="logoutButton" destination="zCy-aE-s08" id="koJ-8F-Wyx"/>
                         <outlet property="profileImageView" destination="T4u-kz-QzT" id="1E8-kF-S0h"/>
+                        <outlet property="saveButton" destination="ZC1-kk-5dp" id="Yji-4i-zlU"/>
                         <outlet property="welcomeNameLabel" destination="OwJ-Fu-d8Z" id="slC-Ui-fP8"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="K4R-eZ-tcV" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2972" y="1314.6926536731635"/>
+            <point key="canvasLocation" x="2978" y="1362"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="KI1-PZ-IoK">
@@ -580,7 +602,7 @@
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="H9o-wd-eNl" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1864.8" y="508.69565217391306"/>
+            <point key="canvasLocation" x="1785" y="548"/>
         </scene>
         <!--Home-->
         <scene sceneID="NMV-eg-xSr">
@@ -725,7 +747,7 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Capture" id="v96-qf-QW5">
-                        <barButtonItem key="leftBarButtonItem" style="plain" id="APQ-am-8cA">
+                        <barButtonItem key="leftBarButtonItem" id="APQ-am-8cA">
                             <button key="customView" opaque="NO" alpha="0.5" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="65J-BY-jml">
                                 <rect key="frame" x="16" y="7" width="83" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -737,7 +759,7 @@
                                 </connections>
                             </button>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" style="plain" id="R8S-vf-3Kg">
+                        <barButtonItem key="rightBarButtonItem" id="R8S-vf-3Kg">
                             <button key="customView" opaque="NO" alpha="0.5" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="pvm-FY-4OK">
                                 <rect key="frame" x="276" y="7" width="83" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -833,7 +855,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hnp-vT-6NY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2060" y="1315"/>
+            <point key="canvasLocation" x="2079" y="1403"/>
         </scene>
         <!--Capture-->
         <scene sceneID="0VA-Ji-eH3">
@@ -910,7 +932,4 @@
         <image name="sendGrey16" width="16" height="16"/>
         <image name="shutterColor" width="1280" height="1280"/>
     </resources>
-    <inferredMetricsTieBreakers>
-        <segue reference="iLY-5z-ubL"/>
-    </inferredMetricsTieBreakers>
 </document>

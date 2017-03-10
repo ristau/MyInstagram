@@ -22,6 +22,8 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
   @IBOutlet weak var userNameTextField: UITextField!
   @IBOutlet weak var passwordTextField: UITextField!
   
+  @IBOutlet weak var cancelButton: UIButton!
+  
   var firstNamePlaceHolderText: String = "Enter first name"
   var lastNamePlaceHolderText: String = "Enter last name"
   var phoneNumberPlaceHolderText: String = "Enter phone number"
@@ -30,12 +32,7 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
   var passwordPlaceHolderText: String = "Enter password"
   
   var user: User?
-  var firstName: String?
-  var lastName: String?
-  var phoneNumber: String?
-  var email: String?
-  var userName: String?
-  var password: String?
+  var validInput: Bool?
   
   var gradientLayer: CAGradientLayer!
   
@@ -55,6 +52,7 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
       
       
       signUpButton.layer.cornerRadius = 4
+      cancelButton.layer.cornerRadius = 4
       
       firstNameTextField?.delegate = self
       lastNameTextField?.delegate = self
@@ -109,7 +107,14 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
   
   func applyNonPlaceholderStyle(text: UITextField) {
     text.textColor = UIColor.darkText
+    text.layer.borderWidth = 0
     text.alpha = 1.0
+    validInput = true
+  }
+  
+  func applyInvalidStyle(text: UITextField) {
+    text.layer.borderWidth = 4
+    text.layer.borderColor = UIColor(red:0.80, green:0.67, blue:0.81, alpha:1.0).cgColor // hex #CDACCE
   }
   
   func createGradientLayer() {
@@ -122,31 +127,117 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
       
   }
   
-// MARK: - Completing Sign Up and Leaving View Controller
+// MARK: - SIGN UP AND LOG IN
   
   @IBAction func onSignUp(_ sender: UIButton) {
-    print("Signing Up the new user")
-    
-//    let hudView = hudView.hud(inView: viewWithTag(1), animated: true)
-    let hudView = HudView.hud(inView: navigationController!.view, animated: true)
-    hudView.text = "Welcome!"
+   
+    if validateForm() == true {
 
-    
-    firstName = firstNameTextField.text
-    lastName = lastNameTextField.text
-    phoneNumber = phoneNumberTextField.text
-    email = emailTextField.text
-    userName = userNameTextField.text
-    password = passwordTextField.text
-    
-    user = User(username: userName!, psswd: password!, emailaddress: email!, telNum: phoneNumber!, fname: firstName!, lname: lastName!)
- 
-    afterDelay(0.6) {
-      hudView.isHidden = true
-      self.performUserLogin()
+      setUser( completionHandler: {
+        didSetUser -> Void in
+        if didSetUser {
+          print("User is: \(user!.userName!)")
+          performUserLogin(user: user!)
+          
+        } else {
+          print("Unexpected error encountered")
+        }
+      })
+      
+      
     }
-
   }
+  
+  
+  func validateForm() -> Bool {
+    
+    if firstNameTextField.text == "" || firstNameTextField.text == firstNamePlaceHolderText {
+      print("first name not valid")
+      applyInvalidStyle(text: firstNameTextField)
+      validInput = false
+    }
+    
+    if lastNameTextField.text == "" || lastNameTextField.text == lastNamePlaceHolderText {
+      print("last name not valid")
+      applyInvalidStyle(text: lastNameTextField)
+      validInput = false
+    }
+    
+    if phoneNumberTextField.text == "" || phoneNumberTextField.text == phoneNumberPlaceHolderText {
+      print("phone number not valid")
+      applyInvalidStyle(text: phoneNumberTextField)
+      validInput = false
+    }
+    
+    if emailTextField.text == "" || emailTextField.text == emailPlaceHolderText {
+      print("email not valid")
+      applyInvalidStyle(text: emailTextField)
+      validInput = false
+    }
+    
+    if userNameTextField.text == "" || userNameTextField.text == userNamePlaceHolderText {
+      print("username not valid")
+      applyInvalidStyle(text: userNameTextField)
+      validInput = false
+    }
+    
+    if passwordTextField.text == "" || passwordTextField.text == passwordPlaceHolderText {
+      print("password not valid")
+      applyInvalidStyle(text: passwordTextField)
+      validInput = false
+    }
+    
+    if validInput == false {
+      showAlert()
+    } else {
+      validInput = true
+      print("Valid input")
+    }
+    
+    return validInput!
+  }
+  
+  func setUser( completionHandler: (Bool) -> Void) {
+  
+    user = User(username: userNameTextField.text!, psswd: passwordTextField.text!, emailaddress: emailTextField.text!, telNum: phoneNumberTextField.text!, fname: firstNameTextField.text!, lname: lastNameTextField.text!)
+    
+    completionHandler(true)
+  }
+  
+  
+  func performUserLogin(user: User) {
+
+    PFUser.logInWithUsername(inBackground: (user.userName)!, password: (user.password)!) { (user: PFUser?, error: Error?) -> Void in
+      
+      print("logged in successfully")
+     // let hudView = HudView.hud(inView: self.navigationController!.view, animated: true)
+     // hudView.text = "Welcome!"
+      //afterDelay(0.6) {  hudView.isHidden = true  }
+      self.goToProfile()
+    }
+      
+//      let loginVC = self.storyboard?.instantiateViewController(withIdentifier: "LoginViewController") as! LoginViewController
+//      print("Completion")
+//      self.present(loginVC, animated: true, completion: nil)
+//
+//
+//      if user != nil {
+//        print("You're logged in!")
+//        self.goToProfile()
+//      }
+      
+  }
+
+  
+  
+  
+  
+  //
+  //  func addFunction(_ a: Int, _ b: Int) -> Int {
+  //    return a + b }
+  //  operateOnNumbers(4, 2, operation: addFunction)
+  //
+  
   
   @IBAction func onTap(_ sender: UITapGestureRecognizer)
   {
@@ -159,39 +250,81 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
   }
   
   
-  
-  func performUserLogin() {
-    
-    if firstNameTextField.text == "" || firstNameTextField.text == firstNamePlaceHolderText {
-      print ("missing field")
-    }
-    
-    PFUser.logInWithUsername(inBackground: (user?.userName)!, password: (user?.password)!) { (user: PFUser?, error: Error?) -> Void in
-      
-      if user != nil {
-        print("You're logged in!")
-        self.performSegue(withIdentifier: "GoToProfile", sender: nil)
 
+  
+  func goToProfile() {
+   
+    print("going to profile")
+    
+//    let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController (withIdentifier: "TabBarController")
+//    window?.rootViewController = viewController
+//    
+    
+    let tabBarController = self.storyboard?.instantiateViewController(withIdentifier: "TabBarController") as! UITabBarController
+    
+    //  let vc = storyboard?.instantiateViewController(withIdentifier: "TabBarController")
+    
       
-      }
-    }
+    
+//    self.dismissModalViewControllerAnimated = true
+//    self.dismiss(animated: true, completion: {
+//        tabBarController.selectedIndex = 1
+//    })
+    
+    
+   //  let profileNavController = self.storyboard?.instantiateViewController(withIdentifier: "ProfileNavigationController") as! UINavigationController
+    
+    
+     // let profileVC = profileNavController.topViewController as! ProfileViewController
+    //  let profileVC = storyboard?.instantiateViewController(withIdentifier: "ProfileViewController")
+     // self.present(profileVC, animated: true, completion: nil)
+   
+       // tabBarController.selectedIndex = 1
+//        let profileNavController = self.storyboard?.instantiateViewController(withIdentifier: "ProfileNavigationController") as! UINavigationController
+//        let profileVC = profileNavController.topViewController as! ProfileViewController
+//
+//      self.present(profileVC, animated: true, completion: nil)
+
+    //tabBarController.selectedViewController = tabBarController.viewControllers![2]
+    
+ 
+   // let vc = storyboard?.instantiateViewController(withIdentifier: "TabBarController")
+  //  tabBarController?.selectedIndex = 3
+    //self.present(vc!, animated: true, completion: nil)
+    
+    
+         // let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController (withIdentifier: "TabBarController")
+    //tabBarController?.selectedIndex = 0
+    
+    //    //let profileVC = self.storyboard?.instantiateViewController(withIdentifier: "ProfileViewController") as! LoginViewController
+//    afterDelay(0.6) {
+//      hudView.isHidden = true
+//      print("Going to profile")
+//      self.present(profileVC, animated: true, completion: nil)
+//    }
+
+    
+    
+    //    guard let tabBarController = tabBarController else { return }
+//    // also has tag 3
+//    let profileNavController = tabBarController.viewControllers?[2] as! UINavigationController
+//    let profileViewController = profileNavController.topViewController as! ProfileViewController
+//    tabBarController.selectedIndex = 1
+//    self.performSegue(withIdentifier: "GoToProfile", sender: nil)
+    
   }
   
+  
+  
   func showAlert() {
-    let alertController = UIAlertController(title: "Incomplete Sign Up", message: nil, preferredStyle: .actionSheet)
     
-//    let forgotUserNameOrPasswordAction = UIAlertAction(title: "Forgot Password or Username?", style: .default, handler: {_ in self.resetPassword() })
-//    alertController.addAction(forgotUserNameOrPasswordAction)
-    
-    
+    let alertController = UIAlertController(title: "Incomplete Fields", message: nil, preferredStyle: .alert)
+
     let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
     alertController.addAction(cancelAction)
     
     present(alertController, animated: true, completion: nil)
     
   }
-  
-  
-  
   
 }

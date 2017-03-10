@@ -188,6 +188,7 @@
 				TargetAttributes = {
 					E5564F251E5298910043BBCD = {
 						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = F7WL3Y7459;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -410,6 +411,7 @@
 			baseConfigurationReference = A94D165676D8032C2F40727B /* Pods-MyInstagram.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = F7WL3Y7459;
 				INFOPLIST_FILE = MyInstagram/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = feiLabs.com.MyInstagram;
@@ -423,6 +425,7 @@
 			baseConfigurationReference = 89F71E3FD897AFA7C6CB1477 /* Pods-MyInstagram.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = F7WL3Y7459;
 				INFOPLIST_FILE = MyInstagram/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = feiLabs.com.MyInstagram;
