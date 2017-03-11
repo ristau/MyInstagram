@@ -29,18 +29,18 @@ The following **additional** features are implemented:
 - [X] Animated launch view before seguing to login view
 - [X] Implemented color gradients for login screens 
 - [X] Implemented category picker for posts
-- [X] Customized UITextField for post caption (placeholder text that disappears when typing starts)
+- [X] Customized UITextField for post caption (placeholder text that disappears when typing starts and adjusts font)
 - [X] Implemented alert controller for failed login
 - [X] Implemented field validation for sign up attempt
 - [X] Implemented alert controller for incomplete post attempt
 - [X] User can mark a post as a favorite 
-- [ ] User can view posts marked as favorites 
+- [X] User can view posts marked as favorites 
 
 
 
 Please list two areas of the assignment you'd like to **discuss further with your peers** during the next class (examples include better ways to implement something, how to extend your app in certain ways, etc):
 
-1. 
+1. How to navigate from a login into the tabbar controller 
 2. 
 
 ## Video Walkthrough 
