@@ -2,7 +2,7 @@
 
 **MyInstagram** is a photo sharing app using Parse as its backend.
 
-Time spent: **18** hours spent in total
+Time spent: **28** hours spent in total
 
 ## User Stories
 
@@ -29,18 +29,12 @@ The following **additional** features are implemented:
 - [X] Animated launch view before seguing to login view
 - [X] Implemented color gradients for login screens 
 - [X] Implemented category picker for posts
-- [ ] User can delete or edit categories 
 - [X] Customized UITextField for post caption (placeholder text that disappears when typing starts)
 - [X] Implemented alert controller for failed login
 - [X] Implemented field validation for sign up attempt
-- [ ] Implemented alert controller for incomplete post attempt
-- [ ] User can mark a post as a favorite 
+- [X] Implemented alert controller for incomplete post attempt
+- [X] User can mark a post as a favorite 
 - [ ] User can view posts marked as favorites 
-- [ ] User can comment on a post
-- [ ] User can view or add comments (including alert to do this) 
-- [ ] User can send the post (including alert) 
-
-
 
 
 
