@@ -13,12 +13,15 @@ import ParseUI
 
 class PostsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
   
+  @IBOutlet weak var FavoriteButtonLabel: UIButton!
+  
   var postArray: [PFObject] = []
   let HeaderViewIdentifier = "TableViewHeaderView"
   var date: Date?
   var myImage: PFImageView!
   var fullName: String!
   var hudView: HudView?
+  var showFav: Bool?
   
   var tapGesture: UITapGestureRecognizer!
   
@@ -32,6 +35,9 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
 
       self.navigationItem.title = "My Posts"
       self.logoutButton.layer.cornerRadius = 4
+      
+      showFav = false
+      FavoriteButtonLabel.setImage(#imageLiteral(resourceName: "greyHeart32"), for: .normal)
       
       tableView.dataSource = self
       tableView.delegate = self
@@ -167,6 +173,33 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
   }
   
   
+  func fetchFavorites() {
+    
+    let query = PFQuery(className: "Post")
+    
+    query.order(byDescending: "_created_at")
+    
+    query.includeKey("author")
+    query.whereKey("fullname", equalTo: fullName)
+    query.whereKey("favorited", equalTo: true)
+    query.limit = 20
+    
+    query.findObjectsInBackground { (posts: [PFObject]?, error: Error?) -> Void in
+      if let posts = posts {
+        
+        self.postArray = posts
+        self.tableView.reloadData()
+        
+        print("Retrieved the posts")
+      } else {
+        print(error?.localizedDescription as Any)
+      }
+    }
+  }
+
+  
+  
+  
   func loadUserImage() {
     
     // get profile image from Parse
@@ -210,6 +243,26 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
   
   
   // MARK: - ACTION BUTTONS 
+  
+  
+  @IBAction func displayFavorites(_ sender: UIButton) {
+    print("Tapped on show favorites")
+    
+    if showFav == false {
+      
+      showFav = true
+      FavoriteButtonLabel.setImage(#imageLiteral(resourceName: "redHeart32"), for: .normal)
+      fetchFavorites()
+
+    } else if showFav == true {
+      showFav = false
+      FavoriteButtonLabel.setImage(#imageLiteral(resourceName: "greyHeart32"), for: .normal)
+      fetchParsePosts()
+    }
+  }
+  
+  
+  
   
   
   @IBAction func onFavorite(_ sender: UIButton) {

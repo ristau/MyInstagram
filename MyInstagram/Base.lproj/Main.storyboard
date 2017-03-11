@@ -470,8 +470,19 @@
                             </button>
                             <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" image="homeGrey24" id="VjO-N1-52P">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Q4d-i9-omo">
+                                <rect key="frame" x="327" y="6" width="32" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" image="greyHeart32"/>
+                                <connections>
+                                    <action selector="displayFavorites:" destination="JK4-f4-ReN" eventType="touchUpInside" id="cvx-HZ-neR"/>
+                                </connections>
+                            </button>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="FavoriteButtonLabel" destination="Q4d-i9-omo" id="tah-ta-XhW"/>
                         <outlet property="logoutButton" destination="Bwd-2j-OqH" id="eIP-1g-hPt"/>
                         <outlet property="tableView" destination="Iso-Pd-5XW" id="TyG-4I-ypU"/>
                     </connections>
@@ -925,6 +936,7 @@
         <image name="cameraBlue64" width="64" height="64"/>
         <image name="camera_white24" width="24" height="24"/>
         <image name="commentGrey16" width="16" height="16"/>
+        <image name="greyHeart32" width="32" height="32"/>
         <image name="homeGrey24" width="24" height="24"/>
         <image name="openHeartGrey16" width="16" height="16"/>
         <image name="profileGrey24" width="24" height="24"/>
