@@ -138,7 +138,6 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
         if didSetUser {
           print("User is: \(user!.userName!)")
           performUserLogin(user: user!)
-          
         } else {
           print("Unexpected error encountered")
         }
@@ -209,34 +208,19 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
 
     PFUser.logInWithUsername(inBackground: (user.userName)!, password: (user.password)!) { (user: PFUser?, error: Error?) -> Void in
       
-      print("logged in successfully")
-     // let hudView = HudView.hud(inView: self.navigationController!.view, animated: true)
-     // hudView.text = "Welcome!"
-      //afterDelay(0.6) {  hudView.isHidden = true  }
-      self.goToProfile()
+      if user != nil {
+        User.currentUser = user
+        print("successful sign-up")
+        self.goToProfile(currUser: user!)
+      }
     }
-      
-//      let loginVC = self.storyboard?.instantiateViewController(withIdentifier: "LoginViewController") as! LoginViewController
-//      print("Completion")
-//      self.present(loginVC, animated: true, completion: nil)
-//
-//
-//      if user != nil {
-//        print("You're logged in!")
-//        self.goToProfile()
-//      }
-      
   }
 
+  func goToProfile(currUser: PFUser) {
+    
+    NotificationCenter.default.post(name: NSNotification.Name(rawValue: User.userDidSignUp), object: nil)
+  }
   
-  
-  
-  
-  //
-  //  func addFunction(_ a: Int, _ b: Int) -> Int {
-  //    return a + b }
-  //  operateOnNumbers(4, 2, operation: addFunction)
-  //
   
   
   @IBAction func onTap(_ sender: UITapGestureRecognizer)
@@ -250,72 +234,6 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
   }
   
   
-
-  
-  func goToProfile() {
-   
-    print("going to profile")
-    
-//    let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController (withIdentifier: "TabBarController")
-//    window?.rootViewController = viewController
-//    
-    
-    let tabBarController = self.storyboard?.instantiateViewController(withIdentifier: "TabBarController") as! UITabBarController
-    
-    //  let vc = storyboard?.instantiateViewController(withIdentifier: "TabBarController")
-    
-      
-    
-//    self.dismissModalViewControllerAnimated = true
-//    self.dismiss(animated: true, completion: {
-//        tabBarController.selectedIndex = 1
-//    })
-    
-    
-   //  let profileNavController = self.storyboard?.instantiateViewController(withIdentifier: "ProfileNavigationController") as! UINavigationController
-    
-    
-     // let profileVC = profileNavController.topViewController as! ProfileViewController
-    //  let profileVC = storyboard?.instantiateViewController(withIdentifier: "ProfileViewController")
-     // self.present(profileVC, animated: true, completion: nil)
-   
-       // tabBarController.selectedIndex = 1
-//        let profileNavController = self.storyboard?.instantiateViewController(withIdentifier: "ProfileNavigationController") as! UINavigationController
-//        let profileVC = profileNavController.topViewController as! ProfileViewController
-//
-//      self.present(profileVC, animated: true, completion: nil)
-
-    //tabBarController.selectedViewController = tabBarController.viewControllers![2]
-    
- 
-   // let vc = storyboard?.instantiateViewController(withIdentifier: "TabBarController")
-  //  tabBarController?.selectedIndex = 3
-    //self.present(vc!, animated: true, completion: nil)
-    
-    
-         // let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController (withIdentifier: "TabBarController")
-    //tabBarController?.selectedIndex = 0
-    
-    //    //let profileVC = self.storyboard?.instantiateViewController(withIdentifier: "ProfileViewController") as! LoginViewController
-//    afterDelay(0.6) {
-//      hudView.isHidden = true
-//      print("Going to profile")
-//      self.present(profileVC, animated: true, completion: nil)
-//    }
-
-    
-    
-    //    guard let tabBarController = tabBarController else { return }
-//    // also has tag 3
-//    let profileNavController = tabBarController.viewControllers?[2] as! UINavigationController
-//    let profileViewController = profileNavController.topViewController as! ProfileViewController
-//    tabBarController.selectedIndex = 1
-//    self.performSegue(withIdentifier: "GoToProfile", sender: nil)
-    
-  }
-  
-  
-  
   func showAlert() {
     
     let alertController = UIAlertController(title: "Incomplete Fields", message: nil, preferredStyle: .alert)
@@ -326,5 +244,14 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
     present(alertController, animated: true, completion: nil)
     
   }
+  
+  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+   
+    if segue.identifier == "ProfileSegue" {
+      
+      print("Preparing for segue")
+    }
+  }
+  
   
 }

@@ -18,50 +18,47 @@ class ProfileViewController: UIViewController {
   @IBOutlet weak var profileImageView: UIImageView!
   @IBOutlet weak var saveButton: UIButton!
   
-  
   var post: PFObject!
-  var user: PFUser!
   var fullName: String!
-
+  var image: UIImage!
+  var changedProfileImage: Bool?
+  
     override func viewDidLoad() {
         super.viewDidLoad()
 
+      
+      changedProfileImage = false
       self.navigationItem.title = "Profile"
       self.logoutButton.layer.cornerRadius = 4
       self.saveButton.layer.cornerRadius = 4
       
-      user = PFUser.current()
-      
-      //let myImage = UIImage(named: "placeholderBlue64")
-      let myImage = PFImageView()
-      
-      if user?["profile_image"] != nil {
-        myImage.file = user?["profile_image"] as? PFFile
-        myImage.loadInBackground()
-      } else {
-        myImage.image = UIImage(named: "placeholderBlue64")!
-      }
-      
-      
-      profileImageView.image = myImage.image
-      profileImageView.clipsToBounds = true
-      profileImageView.layer.cornerRadius = 15
      // profileImageView.layer.borderColor = UIColor.white.withAlphaComponent(0.9).cgColor
      // profileImageView.layer.borderWidth = 1;
- 
-      getCurrentUserName()
-      getCurrentUserImage() // add code for this
-
+  
     }
 
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(true)
+   
+    User.currentUser = PFUser.current()
+    getCurrentUserName()
+    
+    if !changedProfileImage! {
+      getCurrentUserImage()
+    }
+    
+  }
 
+  override func viewWillDisappear(_ animated: Bool) {
+    super.viewWillDisappear(true)
+    changedProfileImage = false
+  }
   
   
   func getCurrentUserName() {
     
-    user = PFUser.current()
-    let _firstname = user!["firstname"]
-    let _lastname = user!.object(forKey: "lastname")
+    let _firstname = User.currentUser!["firstname"]
+    let _lastname = User.currentUser!.object(forKey: "lastname")
     
     // convert first and last name to full name
     let charSet = NSCharacterSet(charactersIn: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ").inverted
@@ -73,9 +70,6 @@ class ProfileViewController: UIViewController {
     fullName = firstName + " " + lastName
     
     welcomeNameLabel.text = ("Welcome, \(fullName!)")
-    
-    // getting the profile image 
-    //"bfrfeb17_120x160"
 
   }
   
@@ -84,9 +78,9 @@ class ProfileViewController: UIViewController {
   func show(image: UIImage) {
     
     profileImageView.image = image
-    profileImageView.frame = CGRect(x: 65, y: 50, width: 64, height: 64)
+    profileImageView.frame = CGRect(x: 70, y: 50, width: 64, height: 64)
     // adjust x and y coordinates, can these be set in autolayout
-    
+
   }
   
   @IBAction func saveProfileImage(_ sender: UIButton) {
@@ -100,6 +94,15 @@ class ProfileViewController: UIViewController {
       
       if success {
         print("Successful Post to Parse")
+        
+        let hudView = HudView.hud(inView: self.navigationController!.view, animated: true)
+        hudView.text = "Saved!"
+        
+        afterDelay(0.6) {
+          hudView.isHidden = true
+          hudView.removeFromSuperview()
+          self.tabBarController?.selectedIndex = 0
+        }
       }
       else {
         print("Can't post to parse")
@@ -110,11 +113,21 @@ class ProfileViewController: UIViewController {
 
   func getCurrentUserImage() {
 
-
+    let myImage = PFImageView()
+    
+    if User.currentUser?["profile_image"] != nil {
+      myImage.file = User.currentUser?["profile_image"] as? PFFile
+      myImage.loadInBackground()
+    } else {
+      myImage.image = UIImage(named: "placeholderBlue64")!
+    }
     
     
+    profileImageView.image = myImage.image
+    profileImageView.clipsToBounds = true
+    profileImageView.layer.cornerRadius = 15
+      
   }
-
 
 
   @IBAction func onCameraTap(_ sender: UIButton) {
@@ -124,17 +137,16 @@ class ProfileViewController: UIViewController {
   
   @IBAction func onLogout(_ sender: UIButton) {
     print("Logging Out.  Goodbye.")
-    
-    PFUser.logOutInBackground(block: { (error: Error?) -> Void in
-      if error != nil {
-        print("Problem logging out")
-      } else {
-        
-        let loginVC = self.storyboard?.instantiateViewController(withIdentifier: "LoginViewController") as! LoginViewController        
-        self.present(loginVC, animated: true, completion: nil)
 
-      }
-    })
+    let hudView = HudView.hud(inView: self.navigationController!.view, animated: true)
+    hudView.text = "Goodbye!"
+    
+    afterDelay(1.0) {
+      hudView.isHidden = true
+      hudView.removeFromSuperview()
+      User.logout()
+    }
+    
   }
   
     
@@ -165,9 +177,12 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
   
   func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
     
-    let image = info[UIImagePickerControllerEditedImage] as? UIImage
+    image = info[UIImagePickerControllerEditedImage] as? UIImage
+    print("did pick the image")
     
     if let theImage = image{
+      print("Going to show the image")
+      changedProfileImage = true
       show(image: theImage)
     }
     

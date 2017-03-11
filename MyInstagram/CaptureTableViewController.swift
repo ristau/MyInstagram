@@ -220,7 +220,7 @@ class CaptureTableViewController: UITableViewController, UITextViewDelegate {
     
     captureImageView.image = image
     captureImageView.isHidden = false
-    captureImageView.frame = CGRect(x: 10, y: 10, width: 260, height: 260)
+    captureImageView.frame = CGRect(x: 20, y: 10, width: 260, height: 260)
     addPhotoLabel.isHidden = true
     validInput = true
     
@@ -309,36 +309,32 @@ class CaptureTableViewController: UITableViewController, UITextViewDelegate {
   
   @IBAction func done() {
     
-    validateFields()
-//    let hudView = HudView.hud(inView: navigationController!.view, animated: true)
-//    
-//    hudView.text = "Done!"
-//    
-//    createPost { (success) -> Void in
-//      if success {
-//        
-//        Post.createNewPost(post: post!) { (success: Bool, error: Error?) -> Void in
-//          
-//          if success {
-//            print("Successful Post to Parse")
-//        
-//            afterDelay(0.6) {
-//              hudView.isHidden = true
-//              self.clearAll()
-//              self.dismiss(animated: true, completion: nil)
-  //            self.returnMainMenu()
-              // self.navigationController?.popToRootViewController(animated: true)
-              // self.presentingViewController?.dismiss(animated: false, completion: nil)
-            //  self.tabBarController?.dismiss(animated: true, completion: nil)
-              // self.dismiss(animated: true, completion: nil)
-//             }
-//          }
-//          else {
-//            print("Can't post to parse")
-//          }
-//        }
-//      }
-//    }
+    let validated = validateFields()
+    
+    if validated {
+      
+      createPost { (success) -> Void in
+        if success {
+          Post.createNewPost(post: post!) { (success: Bool, error: Error?) -> Void in
+            if success {
+              
+              let hudView = HudView.hud(inView: self.navigationController!.view, animated: true)
+              hudView.text = "Done!"
+              
+              afterDelay(0.6) {
+                hudView.isHidden = true
+                hudView.removeFromSuperview()
+                self.clearAll()
+              }
+              print("Successful Post to Parse")
+              
+            }  else {
+              print("Can't post to parse")
+            }
+          }
+        }
+      }
+    }
   }
   
   func returnMainMenu() {

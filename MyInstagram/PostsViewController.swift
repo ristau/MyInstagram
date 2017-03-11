@@ -16,13 +16,11 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
   var postArray: [PFObject] = []
   let HeaderViewIdentifier = "TableViewHeaderView"
   var date: Date?
-  var user: PFUser?
   var myImage: PFImageView!
+  var fullName: String!
+  var hudView: HudView?
   
   var tapGesture: UITapGestureRecognizer!
-  
-  
-  
   
   @IBOutlet weak var tableView: UITableView!
   
@@ -31,9 +29,6 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
 
     override func viewDidLoad() {
         super.viewDidLoad()
-      
-      
-      user = PFUser.current()
 
       self.navigationItem.title = "My Posts"
       self.logoutButton.layer.cornerRadius = 4
@@ -44,13 +39,21 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
       
       tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.goToProfileView(_:)))
      
-      loadUserImage()
     }
 
   override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(true)
     
+    User.currentUser = PFUser.current()
+    fullName = getCurrentUserName()
+    print("Current User: \(fullName!)")
     fetchParsePosts()
+    loadUserImage()
   
+  }
+  
+  override func viewWillDisappear(_ animated: Bool) {
+    super.viewWillDisappear(true)
   }
   
  
@@ -124,11 +127,13 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     let post = postArray[indexPath.section]
     cell.post = post
-    
+
     // add tags for action buttons 
-    cell.favoriteButton.tag = indexPath.row
-    cell.commentButton.tag = indexPath.row
-    cell.sendButton.tag = indexPath.row
+    cell.favoriteButton.tag = indexPath.section
+    cell.commentButton.tag = indexPath.section
+    cell.sendButton.tag = indexPath.section
+    
+    setFavoriteLabels(post: cell.post)
     
     cell.contentView.setNeedsLayout()
     cell.contentView.layoutIfNeeded()
@@ -143,23 +148,17 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     let query = PFQuery(className: "Post")
     
     query.order(byDescending: "_created_at")
+    
     query.includeKey("author")
+    query.whereKey("fullname", equalTo: fullName)
     query.limit = 20
     
     query.findObjectsInBackground { (posts: [PFObject]?, error: Error?) -> Void in
       if let posts = posts {
+        
         self.postArray = posts
-        
-        for post in posts {
-          
-          print("Fullname: \(post["fullname"])")
-          
-          print("caption: \(post["caption"])")
-        
-        
-        }
-        
         self.tableView.reloadData()
+        
         print("Retrieved the posts")
       } else {
         print(error?.localizedDescription as Any)
@@ -173,17 +172,41 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     // get profile image from Parse
     myImage = PFImageView()
     
-    if user?["profile_image"] != nil {
-      myImage.file = user?["profile_image"] as? PFFile
+    if User.currentUser?["profile_image"] != nil {
+      myImage.file = User.currentUser?["profile_image"] as? PFFile
       myImage.loadInBackground()
     } else {
       myImage.image = UIImage(named: "placeholderBlue64")!
     }
+  }
+  
+  func getCurrentUserName() -> String {
     
+    let _firstname = User.currentUser!["firstname"]
+    let _lastname = User.currentUser!.object(forKey: "lastname")
+    
+    // convert first and last name to full name
+    let charSet = NSCharacterSet(charactersIn: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ").inverted
+    let unformattedFirstName = String(describing: _firstname!)
+    let firstName = unformattedFirstName.components(separatedBy: charSet).joined(separator: "")
+    let unformattedLastName = String(describing: _lastname!)
+    let lastName = unformattedLastName.components(separatedBy: charSet).joined(separator: "")
+    
+    let currentUserFullName = firstName + " " + lastName
+    return currentUserFullName
   }
 
+  // MARK: - SET LABELS 
   
-  
+  func setFavoriteLabels(post: PFObject) {
+    
+    if let favorited = post["favorited"] as? Bool {
+      
+      if favorited == true {
+        print("Favorited")
+      }
+    }
+  }
   
   
   // MARK: - ACTION BUTTONS 
@@ -191,7 +214,27 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
   
   @IBAction func onFavorite(_ sender: UIButton) {
     print("Tapped on Favorite")
+
+    let button = sender 
+    let index = button.tag
+    print("Index: \(index)")
+    
+    let post = postArray[index]
+    
+    Post.saveAsFavorite(post: post, withCompletion: { (success: Bool, error: Error?) -> Void in
+      if success {
+        print("Successful Post to Parse")
+        let favorited = post["favorited"] as? Bool
+        print("Favorite Status is: \(favorited!)")
+      }  else {
+        print("Can't post to parse")
+      
+      }
+    })
+    tableView.reloadData()
   }
+  
+  
   
   @IBAction func onComment(_ sender: UIButton) {
     print("Tapped on Comment")
@@ -203,28 +246,17 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
   
   
   @IBAction func onLogout(_ sender: UIButton) {
-
-    PFUser.logOutInBackground(block: { (error: Error?) -> Void in
-      if error != nil {
-        print("Problem logging out")
-      } else {
-        print("Logging Out.  Goodbye.")
-        let hudView = HudView.hud(inView: self.navigationController!.view, animated: true)
-        hudView.text = "Goodbye!"
-        let loginVC = self.storyboard?.instantiateViewController(withIdentifier: "LoginViewController") as! LoginViewController
-        afterDelay(0.6) {
-          hudView.isHidden = true
-          print("Completion")
-          self.present(loginVC, animated: true, completion: nil)
-        }
-      }
-    })
+    
+     let hudView = HudView.hud(inView: self.view, animated: true)
+     hudView.text = "Goodbye!"
+   
+    afterDelay(1.0) {
+      hudView.isHidden = true
+      hudView.removeFromSuperview()
+      User.logout()
+    }
   }
 
-  
-  //        self.dismiss(animated: true, completion: nil)
-
-  
     // MARK: - Navigation
   
   func goToProfileView(_ sender: UITapGestureRecognizer) {
@@ -244,9 +276,6 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         profileVC.post = post 
       
       }
-      
-      
-      
     }
   
   

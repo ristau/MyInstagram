@@ -30,8 +30,7 @@ class PostCell: UITableViewCell {
       self.photoImageView.loadInBackground()
       descriptionLabel.text = post["caption"] as? String
       dateLabel.text = post["date"] as? String
-      
-      
+      setFavoriteLabel()
     }
   }
   
@@ -46,4 +45,25 @@ class PostCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
+  
+    func setFavoriteLabel() {
+    
+      if post["favorited"] != nil {
+        let favoriteStatus = post["favorited"] as! Bool
+        if favoriteStatus == true {
+          favoriteButton.setImage(#imageLiteral(resourceName: "openHeartRed16"), for: .normal)
+        } else if favoriteStatus == false {
+          favoriteButton.setImage(#imageLiteral(resourceName: "openHeartGrey16"), for: .normal)
+        }
+      } else {
+          favoriteButton.setImage(#imageLiteral(resourceName: "openHeartRed16"), for: .normal)
+      }
+
+      
+      
+    
+    }
+  
+  
+  
 }

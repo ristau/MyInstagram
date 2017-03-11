@@ -9,6 +9,7 @@
 import Foundation
 import Parse
 
+
 class User: NSObject {
   
   var firstName: String?
@@ -18,8 +19,13 @@ class User: NSObject {
   var telNumber: String?
   var email: String?
   var user: PFUser?
-  
   var dictionary: NSDictionary?
+  
+  static let userDidLogoutNotification = "UserDidLogout"
+  static let userDidSignUp = "UserDidSignUp"
+  static let userDidLogIn = "UserDidLogIn"
+  
+  static var currentUser: PFUser?
   
   init(dictionary: NSDictionary) {
     
@@ -57,6 +63,7 @@ class User: NSObject {
       
       if success {
         print ("Successfully created a new user")
+        User.currentUser = PFUser.current()
       } else {
         print("Error: \(error!.localizedDescription)")
       }
@@ -64,21 +71,15 @@ class User: NSObject {
   }
   
   
-  func loginWithParseUser(username: String, password: String) {
-    
-    
-    
-  }
-  
   class func saveProfileImage(image: UIImage?, withCompletion completion: PFBooleanResultBlock?) {
 
-    let user = PFUser.current()
+    //let user = PFUser.current()
     
     // Add relevant fields to the object
-    user?["profile_image"] = getPFFileFromImage(image: image) // PFFile column type
+    User.currentUser?["profile_image"] = getPFFileFromImage(image: image) // PFFile column type
     
     // Save object (following function will save the object in Parse asynchronously)
-    user?.saveInBackground(block: completion)
+    User.currentUser?.saveInBackground(block: completion)
   }
   
   
@@ -92,12 +93,23 @@ class User: NSObject {
     }
     return nil
   }
-
   
-  // setting up current pfuser
-  
-  static let userDidLogoutNotification = "UserDidLogout"
-  static var _currentUser: User?
-  
+  class func logout() {
+    
+    User.currentUser = nil
+    NotificationCenter.default.post(name: NSNotification.Name(rawValue: User.userDidLogoutNotification), object: nil)
+    
+    PFUser.logOutInBackground(block: { (error: Error?) -> Void in
+      if error != nil {
+        print("Problem logging out")
+      } else {
+        print("User logged out")
+      }
+    })
+  }
 }
+
+
+
+
 

@@ -48,19 +48,23 @@ class LoginViewController: UIViewController {
   
   @IBAction func onSignIn(_ sender: Any) {
     PFUser.logInWithUsername(inBackground: usernameField.text!, password: passwordField.text!) { (user: PFUser?, error: Error?) -> Void in
-      
-      if user != nil {
-      print("You're logged in!")
-      self.performSegue(withIdentifier: "LoginSegue", sender: nil)
-      }
-      if error != nil {
-        print("problem logging in")
+      if (user != nil) {
+        User.currentUser = user
+        print("\(user!.username!) logged in!")
+        self.goToPosts(currUser: user!)
+      } else {
         self.showAlert()
       }
+      }
     }
+  
+  func goToPosts(currUser: PFUser) {
+    
+    NotificationCenter.default.post(name: NSNotification.Name(rawValue: User.userDidLogIn), object: nil)
   }
   
 
+  
   
   @IBAction func onSignUp(_ sender: Any) {
     

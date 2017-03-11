@@ -18,7 +18,7 @@ class HudView: UIView{
     hudView.isOpaque = false
     
     view.addSubview(hudView)
-    view.isUserInteractionEnabled = false
+    view.isUserInteractionEnabled = true
     
     hudView.show(animated: animated)
     return hudView
@@ -63,6 +63,7 @@ class HudView: UIView{
       
     }
   }
+
   
   
 }

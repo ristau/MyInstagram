@@ -75,6 +75,23 @@ class Post: NSObject {
     post.saveInBackground(block: completion)
   }
 
+  class func saveAsFavorite(post: PFObject, withCompletion completion: PFBooleanResultBlock?) {
+    
+    if post["favorited"] != nil {
+        let favoriteStatus = post["favorited"] as! Bool
+        if favoriteStatus == true {
+          post["favorited"] = false
+        } else if favoriteStatus == false {
+          post["favorited"] = true
+      }
+    } else {
+      post["favorited"] = true
+    }
+    post.saveInBackground(block: completion)
+    
+  }
+  
+  
   /**
    Method to convert UIImage to PFFile
    

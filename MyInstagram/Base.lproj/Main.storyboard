@@ -109,7 +109,6 @@
                         <outlet property="loginButton" destination="lBE-5B-QpY" id="6mY-eM-sOY"/>
                         <outlet property="passwordField" destination="YbE-NL-ixL" id="Syu-DP-XrU"/>
                         <outlet property="usernameField" destination="JTA-nv-3FV" id="1cr-Rv-ZaQ"/>
-                        <segue destination="a1P-vd-gY1" kind="presentation" identifier="LoginSegue" id="PNM-Nu-Xcf"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -879,7 +878,7 @@
         <!--Launch Animation View Controller-->
         <scene sceneID="ZeL-3l-IuV">
             <objects>
-                <viewController id="Ss0-wF-QSn" customClass="LaunchAnimationViewController" customModule="MyInstagram" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="Launch" id="Ss0-wF-QSn" customClass="LaunchAnimationViewController" customModule="MyInstagram" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="h7p-Na-5eu"/>
                         <viewControllerLayoutGuide type="bottom" id="ytq-ow-6p8"/>
@@ -889,7 +888,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="shutterColor" translatesAutoresizingMaskIntoConstraints="NO" id="SlI-gb-9s6">
-                                <rect key="frame" x="-51" y="148" width="478" height="421"/>
+                                <rect key="frame" x="-51" y="99" width="498" height="496"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                         </subviews>

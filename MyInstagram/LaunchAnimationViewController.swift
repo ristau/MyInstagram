@@ -7,15 +7,20 @@
 //
 
 import UIKit
+import Parse
 
 class LaunchAnimationViewController: UIViewController {
-
   
   @IBOutlet weak var launchImageView: UIImageView!
-
+  var user: PFUser?
+  
   
     override func viewDidLoad() {
         super.viewDidLoad()
+      
+      if PFUser.current() != nil {
+        user = PFUser.current()
+      }
       
         rotateImage()
     }
@@ -34,9 +39,19 @@ class LaunchAnimationViewController: UIViewController {
   }
   
   func goToLogin() {
-    let loginVC = self.storyboard?.instantiateViewController(withIdentifier: "LoginViewController") as! LoginViewController
-    self.present(loginVC, animated: true, completion: nil)
-
+    
+//    if User.currentUser != nil {
+//        print("There is a current user")
+//
+//      let appDelegate = UIApplication.shared.delegate! as! AppDelegate
+//      appDelegate.window?.rootViewController = appDelegate.tabBarController
+//      
+//    }
+//    
+//    else {
+      let loginVC = self.storyboard?.instantiateViewController(withIdentifier: "LoginViewController") as! LoginViewController
+      self.present(loginVC, animated: true, completion: nil)
+   // }
   }
   
   

@@ -8,19 +8,18 @@
 
 import UIKit
 import Parse
+import ParseUI
+
 
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
   var window: UIWindow?
+  var tabBarController: UITabBarController?
   var navigationBarAppearance = UINavigationBar.appearance()
 
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-  
-    navigationBarAppearance.tintColor = UIColor.lightGray
-    navigationBarAppearance.barTintColor = UIColor.black
-    navigationBarAppearance.titleTextAttributes = [NSForegroundColorAttributeName:UIColor.lightGray]
     
     Parse.initialize(
       with: ParseClientConfiguration(block: { (configuration:ParseMutableClientConfiguration) -> Void in
@@ -29,13 +28,44 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         configuration.server = "https://myphotopicker.herokuapp.com/parse"
       })
     )
+     
+    navigationBarAppearance.tintColor = UIColor.lightGray
+    navigationBarAppearance.barTintColor = UIColor.black
+    navigationBarAppearance.titleTextAttributes = [NSForegroundColorAttributeName:UIColor.lightGray]
     
-    if PFUser.current() != nil {
+    let storyboard = UIStoryboard(name: "Main", bundle: nil)
+    
+    User.currentUser = PFUser.current()
+    tabBarController = storyboard.instantiateViewController(withIdentifier: "TabBarController") as? UITabBarController
+    
+    if PFUser.current()?.username != nil {
+      print("There is a current user")
+      window?.rootViewController = self.tabBarController
       
-      let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController (withIdentifier: "TabBarController")
-      window?.rootViewController = viewController
-    
+    } else {
+      
+      print("There is no current user")
+      let launchVC = storyboard.instantiateViewController(withIdentifier: "Launch")
+      window?.rootViewController = launchVC
+      window?.makeKeyAndVisible()
     }
+    
+    NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: User.userDidLogoutNotification), object: nil, queue: OperationQueue.main, using: { (NSNotification) -> Void in
+      let loginVC = storyboard.instantiateViewController(withIdentifier: "LoginViewController")
+      self.window?.rootViewController = loginVC      
+    })
+
+    NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: User.userDidLogIn), object: nil, queue: OperationQueue.main, using: { (NSNotification) -> Void in
+      self.window?.rootViewController = self.tabBarController
+    })
+    
+    NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: User.userDidSignUp), object: nil, queue: OperationQueue.main, using: { (NSNotification) -> Void in
+      print("In notification center")
+      if self.window?.rootViewController != nil {
+        self.window!.rootViewController = self.tabBarController
+        self.tabBarController?.selectedIndex = 2
+      }
+    })
     
     return true
   }
