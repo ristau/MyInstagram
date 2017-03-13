@@ -25,7 +25,7 @@ The following **optional** features are implemented:
 
 The following **additional** features are implemented:
 
-- [X] Added launch screen and app icons
+- [X] Added launch screen and multi-resolution app icons
 - [X] Animated launch view before seguing to login view
 - [X] Implemented color gradients for login screens 
 - [X] Implemented category picker for posts
