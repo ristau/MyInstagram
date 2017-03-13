@@ -27,6 +27,7 @@ The following **additional** features are implemented:
 
 - [X] Added launch screen and multi-resolution app icons
 - [X] Animated launch view before seguing to login view
+- [X] HUD is displayed when logging out or saving profile photo
 - [X] Implemented color gradients for login screens 
 - [X] Implemented category picker for posts
 - [X] Customized UITextField for post caption (placeholder text that disappears when typing starts and adjusts font)
